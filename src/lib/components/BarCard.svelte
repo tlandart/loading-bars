@@ -42,21 +42,9 @@
 <div class="panel">
 	<Bar {start} {end} />
 	{#if timeLeft >= 0}
-		<button onclick={cycleFormatType} class="timestamp">
-			{#if formatType === 0}
-				{formatTimestamp(timeLeft)}
-			{:else if formatType === 1}
-				{formatWords(timeLeft)}
-			{/if}
-		</button>
+		<span class="timestamp">{formatTimestamp(timeLeft)}</span>
 	{:else}
-		<button onclick={cycleFormatType} class="timestamp">
-			{#if formatType === 0}
-				00:00:00:00
-			{:else if formatType === 1}
-				0 days, 0 hours, 0 minutes, 0 seconds
-			{/if}
-		</button>
+		<span class="timestamp">00:00:00:00</span>
 	{/if}
 	<span class="title">{name}</span>
 </div>
