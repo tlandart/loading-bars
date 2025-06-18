@@ -1,6 +1,7 @@
-/* Load bars into a map, like in https://svelte.dev/tutorial/kit/the-form-element. And then save it to a JSON or XML file. */
+/* Load bars into memory, like in https://svelte.dev/tutorial/kit/the-form-element. And then save it to a JSON or XML file. */
 
-interface Bar {
+export interface Bar {
+	id: string;
 	start: number;
 	end: number;
 	name: string;
@@ -8,20 +9,21 @@ interface Bar {
 
 const bars: Bar[] = [];
 
-export function getBars(filename: string) {
-	if (bars.length <= 0) {
-		// TODO load from filename
-		bars.push({ start: 0, end: 1797552000000, name: 'Started at epoch, ends in 2027.' });
-		bars.push({ start: Date.now(), end: Date.now() + 1000, name: '' });
-		bars.push({ start: Date.now(), end: Date.now() + 120000, name: '' });
-		bars.push({ start: Date.now(), end: Date.now() + 3600000, name: '' });
-		bars.push({ start: Date.now(), end: Date.now() + 40000000, name: 'Time to wake up' });
-		bars.push({
-			start: 1732942800000,
-			end: 1764496980000,
-			name: 'Since nov 30 2024, until nov 30 2025'
-		});
-	}
+export function getBars(obj: Bar[]) {
+	while (bars.length > 0) bars.pop();
+	obj.forEach((value) => {
+		bars.push(value);
+	});
+	return bars;
+}
 
+export function createBar(start: number, end: number, name: string) {
+	bars.push({ id: crypto.randomUUID(), start, end, name });
+	return bars;
+}
+
+export function deleteBar(id: string) {
+	const index = bars.findIndex((bar) => bar.id === id);
+	if (index !== -1) bars.splice(index, 1);
 	return bars;
 }

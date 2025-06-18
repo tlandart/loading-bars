@@ -4,7 +4,7 @@
 
 	let { start = 0, end = 0, name = '' } = $props();
 	let timeLeft = $state(0);
-	let formatType = $state(0);
+	// let formatType = $state(0);
 
 	$effect(() => {
 		timeLeft = end - now.getTime();
@@ -28,15 +28,15 @@
 		return `${f(r.day)}:${f(r.hou)}:${f(r.min)}:${f(r.sec)}`;
 	};
 
-	const formatWords = (ms: number) => {
-		const r = format(ms);
-		return `${r.day} days, ${r.hou} hours, ${r.min} minutes, ${r.sec} seconds`;
-	};
+	// const formatWords = (ms: number) => {
+	// 	const r = format(ms);
+	// 	return `${r.day} days, ${r.hou} hours, ${r.min} minutes, ${r.sec} seconds`;
+	// };
 
-	const cycleFormatType = () => {
-		formatType++;
-		if (formatType > 1) formatType = 0;
-	};
+	// const cycleFormatType = () => {
+	// 	formatType++;
+	// 	if (formatType > 1) formatType = 0;
+	// };
 </script>
 
 <div class="panel">
@@ -44,7 +44,7 @@
 	{#if timeLeft >= 0}
 		<span class="timestamp">{formatTimestamp(timeLeft)}</span>
 	{:else}
-		<span class="timestamp">00:00:00:00</span>
+		<span class="timestamp">-{formatTimestamp(-timeLeft)}</span>
 	{/if}
 	<span class="title">{name}</span>
 </div>

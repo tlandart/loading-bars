@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { now } from '$lib/shared.svelte';
+	import { onMount } from 'svelte';
 
 	let { start = 0, end = 0 } = $props();
 	let percentage = $derived(
