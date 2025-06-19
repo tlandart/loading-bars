@@ -39,12 +39,14 @@
 		height: 100%;
 		background-color: var(--col-deselect);
 		position: absolute;
+		border-radius: 2px;
 	}
 
 	.innerbar {
 		height: 100%;
 		background-image: linear-gradient(var(--col-select-2), var(--col-select));
 		/* background-color: var(--col-select); */
+		border-radius: 2px;
 	}
 
 	.shadow {

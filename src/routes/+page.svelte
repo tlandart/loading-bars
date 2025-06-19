@@ -18,9 +18,12 @@
 <style>
 	.page {
 		width: 60%;
-		margin-top: 100px;
+		margin-top: 50px;
 		margin-left: auto;
 		margin-right: auto;
+		padding: 25px;
+		border: 4px solid var(--col-deselect);
+		border-radius: 2px;
 	}
 	.error {
 		color: red;

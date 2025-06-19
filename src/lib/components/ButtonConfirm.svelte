@@ -30,10 +30,11 @@
 
 <style>
 	button {
-		color: white;
+		color: var(--col-deselect);
 		background-color: black;
 		font-size: 15px;
 		border: none;
+		border-radius: 2px;
 		padding: 5px 10px;
 	}
 	.confirm {

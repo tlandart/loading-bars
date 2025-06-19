@@ -58,7 +58,7 @@
 		<form method="POST" action="?/delete" use:enhance>
 			<input name="id" type="hidden" value={id} />
 			<ButtonConfirm
-				innerText="Delete"
+				innerText="Delete&nbsp&nbsp"
 				confirmText="Delete?"
 				onEnd={() => {
 					submitButton.click();
@@ -79,6 +79,7 @@
 	.panelbottom {
 		display: flex;
 		height: 25px;
+		margin-top: 5px;
 	}
 
 	.panelbottomleft {
@@ -95,14 +96,15 @@
 
 	.timestamp {
 		font-size: 20px;
-		color: white;
+		color: var(--col-deselect);
 		background-color: transparent;
-		padding: 0px 7px;
+		padding: 0px 10px;
+		padding-right: 5px;
 		border: none;
 	}
 
 	.title {
 		font-size: 15px;
-		color: white;
+		color: var(--col-deselect);
 	}
 </style>
