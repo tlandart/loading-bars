@@ -15,14 +15,6 @@
 	};
 </script>
 
-<!-- TODO fix this part, it doesn't work. -->
-{#if form}
-	<p class="error">yes the form exists</p>
-{/if}
-{#if form?.error}
-	<p class="error">{form.error}</p>
-{/if}
-
 <button
 	onclick={() => {
 		absoluteFormToggle = !absoluteFormToggle;
@@ -168,8 +160,5 @@
 	label,
 	header {
 		color: white;
-	}
-	.error {
-		color: red;
 	}
 </style>
