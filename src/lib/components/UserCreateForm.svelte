@@ -1,23 +1,37 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	let startNowToggle = $state(true);
-	let detailedFormToggle = $state(true);
 
-	// for default values in detailed form
-	let now = new Date();
-	let dateStringStart = now.toISOString().slice(0, -5);
-	let dateStringEnd = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
+	let { form } = $props();
+	let startNowToggle = $state(true);
+	let absoluteFormToggle = $state(true);
+
+	// for default values in the absolute form
+	const getDateStrings = () => {
+		let now = new Date();
+		now.setTime(now.getTime() - now.getTimezoneOffset() * 60000);
+		let dateStringStart = now.toISOString().slice(0, -5);
+		let dateStringEnd = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
+		return { dateStringStart, dateStringEnd };
+	};
 </script>
+
+<!-- TODO fix this part, it doesn't work. -->
+{#if form}
+	<p class="error">yes the form exists</p>
+{/if}
+{#if form?.error}
+	<p class="error">{form.error}</p>
+{/if}
 
 <button
 	onclick={() => {
-		detailedFormToggle = !detailedFormToggle;
+		absoluteFormToggle = !absoluteFormToggle;
 	}}
 >
-	{#if detailedFormToggle}
-		Detailed
+	{#if absoluteFormToggle}
+		Absolute
 	{:else}
-		Quick
+		Relative
 	{/if}
 </button>
 
@@ -29,116 +43,133 @@
 		type="text"
 		autocomplete="off"
 		onclick={(e) => {
-			e.target.select();
+			(e.target as HTMLInputElement).select();
 		}}
 		value="New Bar"
 	/>
+	<input name="absoluteform" type="hidden" value={absoluteFormToggle} />
 	<input
 		id="startnow"
 		name="startnow"
 		type="checkbox"
-		placeholder="test"
-		autocomplete="off"
 		bind:checked={startNowToggle}
+		defaultChecked={startNowToggle}
 	/>
 	<label for="startnow">Start on submit</label>
-	{#if detailedFormToggle}
+	{#if absoluteFormToggle}
 		{#if !startNowToggle}
 			<label for="startdatetime">Start</label>
 			<input
 				id="startdatetime"
 				name="startdatetime"
 				type="datetime-local"
-				value={dateStringStart}
+				step="2"
+				defaultValue={getDateStrings().dateStringStart}
+				required
 			/>
 		{/if}
 		<label for="enddatetime">End</label>
-		<input id="enddatetime" name="enddatetime" type="datetime-local" value={dateStringEnd} />
-		<input type="submit" />
+		<input
+			id="enddatetime"
+			name="enddatetime"
+			type="datetime-local"
+			step="2"
+			defaultValue={getDateStrings().dateStringEnd}
+			required
+		/>
 	{:else}
 		{#if !startNowToggle}
 			<header>Start in</header>
 			<input
-				id="quickstarthou"
-				name="quickstarthou"
+				id="relativestarthou"
+				name="relativestarthou"
 				type="number"
 				min="0"
 				max="99"
 				defaultValue="0"
 				onclick={(e) => {
-					e.target.select();
+					(e.target as HTMLInputElement).select();
 				}}
+				required
 			/>
-			<label for="quickstarthou">hours,</label>
+			<label for="relativestarthou">hours,</label>
 			<input
-				id="quickstartmin"
-				name="quickstartmin"
-				type="number"
-				min="0"
-				max="59"
-				defaultValue="10"
-				onclick={(e) => {
-					e.target.select();
-				}}
-			/>
-			<label for="quickstartmin">minutes,</label>
-			<input
-				id="quickstartsec"
-				name="quickstartsec"
+				id="relativestartmin"
+				name="relativestartmin"
 				type="number"
 				min="0"
 				max="59"
 				defaultValue="0"
 				onclick={(e) => {
-					e.target.select();
+					(e.target as HTMLInputElement).select();
 				}}
+				required
 			/>
-			<label for="quickstartsec">seconds</label>
+			<label for="relativestartmin">minutes,</label>
+			<input
+				id="relativestartsec"
+				name="relativestartsec"
+				type="number"
+				min="0"
+				max="59"
+				defaultValue="0"
+				onclick={(e) => {
+					(e.target as HTMLInputElement).select();
+				}}
+				required
+			/>
+			<label for="relativestartsec">seconds</label>
 		{/if}
 		<header>End in</header>
 		<input
-			id="quickendhou"
-			name="quickendhou"
+			id="relativeendhou"
+			name="relativeendhou"
 			type="number"
 			min="0"
 			max="99"
 			defaultValue="0"
 			onclick={(e) => {
-				e.target.select();
+				(e.target as HTMLInputElement).select();
 			}}
+			required
 		/>
-		<label for="quickendhou">hours,</label>
+		<label for="relativeendhou">hours,</label>
 		<input
-			id="quickendmin"
-			name="quickendmin"
+			id="relativeendmin"
+			name="relativeendmin"
 			type="number"
 			min="0"
 			max="59"
 			defaultValue="10"
 			onclick={(e) => {
-				e.target.select();
+				(e.target as HTMLInputElement).select();
 			}}
+			required
 		/>
-		<label for="quickendmin">minutes,</label>
+		<label for="relativeendmin">minutes,</label>
 		<input
-			id="quickendsec"
-			name="quickendsec"
+			id="relativeendsec"
+			name="relativeendsec"
 			type="number"
 			min="0"
 			max="59"
 			defaultValue="0"
 			onclick={(e) => {
-				e.target.select();
+				(e.target as HTMLInputElement).select();
 			}}
+			required
 		/>
-		<label for="quickendsec">seconds</label>
-		<input type="submit" />
+		<label for="relativeendsec">seconds</label>
 	{/if}
+	<input type="submit" />
 </form>
 
 <style>
 	label,
 	header {
 		color: white;
+	}
+	.error {
+		color: red;
 	}
 </style>

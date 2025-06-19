@@ -1,5 +1,6 @@
 import type { Bar } from '$lib/server/database';
 import * as db from '$lib/server/database';
+import { fail } from '@sveltejs/kit';
 
 let bars: Bar[] = [];
 
@@ -9,47 +10,84 @@ export function load() {
 	};
 }
 
-function isValidObj(obj: any) {
-	// checks if obj is of type Bar[]
-	// this seems janky, idk if there is a better way to make sure the passed object is of type Bar[]
-	console.log('validating obj');
-	if (!Array.isArray(obj)) {
-		console.log('false');
-		return false;
-	}
-	for (let o of obj) {
-		if (
-			!('id' in o && 'start' in o && 'end' in o && 'name' in o) ||
-			typeof o['id'] !== 'string' ||
-			typeof o['start'] !== 'number' ||
-			typeof o['end'] !== 'number' ||
-			typeof o['name'] !== 'string'
-		) {
-			console.log('false');
-			return false;
-		}
-	}
-	console.log('true');
-	return true;
-}
-
 export const actions = {
 	upload: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const file = data.get('userfile') as File;
 		const text = await file.text();
 		if (text) {
-			let obj: Bar[] = JSON.parse(text);
-			if (isValidObj(obj)) {
+			let obj = JSON.parse(text);
+			try {
 				bars = db.getBars(obj);
+			} catch (error) {
+				console.error((<Error>error).message);
+				return fail(406, {
+					error: (<Error>error).message
+				});
 			}
 		}
 	},
 	create: async ({ cookies, request }) => {
+		/* request.formData() should return:
+			name (string)
+			if absoluteform=true:
+				if startnow=TRUE:
+					startdatetime (ISO date string)
+				enddatetime (ISO date string)
+			else:
+				if startnow=TRUE:
+					relativestarthou (0-99)
+					relativestartmin (0-59)
+					relativestartsec (0-59)
+				relativeendhou (0-99)
+				relativeendmin (0-59)
+				relativeendsec (0-59)
+		*/
 		const data = await request.formData();
-		const start = Number(data.get('start'));
-		const end = Number(data.get('end'));
-		const name = data.get('name') as string;
-		bars = db.createBar(start, end, name);
+		const now = new Date();
+		let start: number = -1,
+			end: number,
+			name: string; // what we'll get in the end
+
+		name = data.get('name') as string;
+		const absoluteForm = JSON.parse(data.get('absoluteform') as string) as boolean;
+		const startNow = data.get('startnow') !== null;
+
+		if (absoluteForm) {
+			if (!startNow) {
+				let startDateTime = data.get('startdatetime') as string;
+				start = new Date(startDateTime).getTime();
+			}
+			let endDateTime = data.get('enddatetime') as string;
+			end = new Date(endDateTime).getTime();
+		} else {
+			if (!startNow) {
+				let relativeStartHou = JSON.parse(data.get('relativestarthou') as string) as number;
+				let relativeStartMin = JSON.parse(data.get('relativestartmin') as string) as number;
+				let relativeStartSec = JSON.parse(data.get('relativestartsec') as string) as number;
+				start =
+					now.getTime() +
+					relativeStartHou * 3600000 +
+					relativeStartMin * 60000 +
+					relativeStartSec * 1000;
+			}
+			let relativeEndHou = JSON.parse(data.get('relativeendhou') as string) as number;
+			let relativeEndMin = JSON.parse(data.get('relativeendmin') as string) as number;
+			let relativeEndSec = JSON.parse(data.get('relativeendsec') as string) as number;
+			end =
+				now.getTime() + relativeEndHou * 3600000 + relativeEndMin * 60000 + relativeEndSec * 1000;
+		}
+		if (start === -1) start = now.getTime();
+
+		try {
+			bars = db.createBar(start, end, name);
+			console.log('Successfully created bar "' + name + '"');
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(405, {
+				// TODO include all attributes and put them in the svelte file, so that the already-inputted stuff doesn't reset on submit
+				error: (<Error>error).message
+			});
+		}
 	}
 };

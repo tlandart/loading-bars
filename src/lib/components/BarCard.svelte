@@ -7,7 +7,8 @@
 	// let formatType = $state(0);
 
 	$effect(() => {
-		timeLeft = end - now.getTime();
+		timeLeft = Math.min(end - now.getTime(), end - start);
+		// TODO make another timer that counts down to when this bar will start
 	});
 
 	/* Adapted from https://gist.github.com/flangofas/714f401b63a1c3d84aaa */
