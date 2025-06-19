@@ -21,7 +21,7 @@ export const actions = {
 				bars = db.getBars(obj);
 			} catch (error) {
 				console.error((<Error>error).message);
-				return fail(406, {
+				return fail(405, {
 					error: (<Error>error).message
 				});
 			}
@@ -84,8 +84,21 @@ export const actions = {
 			console.log('Successfully created bar "' + name + '"');
 		} catch (error) {
 			console.error((<Error>error).message);
-			return fail(405, {
-				// TODO include all attributes and put them in the svelte file, so that the already-inputted stuff doesn't reset on submit
+			return fail(406, {
+				error: (<Error>error).message
+			});
+		}
+	},
+	delete: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const id = data.get('id') as string;
+
+		try {
+			bars = db.deleteBar(id);
+			console.log('Successfully deleted bar "' + id + '"');
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(407, {
 				error: (<Error>error).message
 			});
 		}

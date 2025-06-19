@@ -31,5 +31,5 @@
 </script>
 
 {#each bars as bar}
-	<BarCard start={bar.start} end={bar.end} name={bar.name} />
+	<BarCard id={bar.id} start={bar.start} end={bar.end} name={bar.name} />
 {/each}

@@ -51,7 +51,7 @@ export function createBar(start: number, end: number, name: string) {
 
 export function deleteBar(id: string) {
 	const index = bars.findIndex((bar) => bar.id === id);
-	if (index === -1) throw new Error('ID does not match an existing bar.');
+	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
 	bars.splice(index, 1);
 	return bars;
 }

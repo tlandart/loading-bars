@@ -5,15 +5,23 @@
 	let { data, form } = $props();
 </script>
 
-<BarCardHolder bars={data.bars} />
-<UserUploadForm />
-<UserCreateForm {form} />
+<div class="page">
+	<BarCardHolder bars={data.bars} />
+	<UserUploadForm {form} />
+	<UserCreateForm {form} />
 
-{#if form?.error}
-	<p class="error">{form.error}</p>
-{/if}
+	{#if form?.error}
+		<p class="error">{form.error}</p>
+	{/if}
+</div>
 
 <style>
+	.page {
+		width: 60%;
+		margin-top: 100px;
+		margin-left: auto;
+		margin-right: auto;
+	}
 	.error {
 		color: red;
 	}

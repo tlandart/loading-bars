@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	let { form } = $props();
 	let button: HTMLInputElement;
 </script>
 
@@ -11,7 +12,7 @@
 		id="userfile"
 		type="file"
 		oninput={() => {
-			// i tried submitting the form but it redirects and i don't like that... so we must click this invisible submit button instead
+			// i tried submitting the form but it redirects and that's not favourable so we must click an invisible submit button instead. same for the one in BarCard
 			button.click();
 		}}
 	/>
@@ -21,6 +22,9 @@
 
 <style>
 	label {
+		color: white;
+	}
+	input {
 		color: white;
 	}
 </style>

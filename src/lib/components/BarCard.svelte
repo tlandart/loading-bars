@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import Bar from '$lib/components/Bar.svelte';
 	import { now } from '$lib/shared.svelte';
+	import ButtonConfirm from './ButtonConfirm.svelte';
 
-	let { start = 0, end = 0, name = '' } = $props();
+	let { id, start = 0, end = 0, name = '' } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
+
+	let submitButton: HTMLInputElement;
 
 	$effect(() => {
 		timeLeft = Math.min(end - now.getTime(), end - start);
@@ -42,26 +46,59 @@
 
 <div class="panel">
 	<Bar {start} {end} />
-	{#if timeLeft >= 0}
-		<span class="timestamp">{formatTimestamp(timeLeft)}</span>
-	{:else}
-		<span class="timestamp">-{formatTimestamp(-timeLeft)}</span>
-	{/if}
-	<span class="title">{name}</span>
+	<div class="panelbottom">
+		<div class="panelbottomleft">
+			{#if timeLeft >= 0}
+				<span class="timestamp">{formatTimestamp(timeLeft)}</span>
+			{:else}
+				<span class="timestamp">-{formatTimestamp(-timeLeft)}</span>
+			{/if}
+			<span class="title">{name}</span>
+		</div>
+		<form method="POST" action="?/delete" use:enhance>
+			<input name="id" type="hidden" value={id} />
+			<ButtonConfirm
+				innerText="Delete"
+				confirmText="Delete?"
+				onEnd={() => {
+					submitButton.click();
+				}}
+			/>
+			<input type="submit" style="display: none" bind:this={submitButton} />
+		</form>
+	</div>
 </div>
 
 <style>
 	.panel {
 		margin-top: 5px;
 		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	.panelbottom {
+		display: flex;
+		height: 25px;
+	}
+
+	.panelbottomleft {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: clip;
+	}
+
+	form {
+		width: fit-content;
+		margin-left: auto;
+		margin-top: auto;
 	}
 
 	.timestamp {
 		font-size: 20px;
-		border: none;
-		background-color: transparent;
-		padding: 0;
 		color: white;
+		background-color: transparent;
+		padding: 0px 7px;
+		border: none;
 	}
 
 	.title {
