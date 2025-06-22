@@ -160,6 +160,10 @@
 	<input type="submit" />
 </form>
 
+{#if form?.error}
+	<p class="error">{form.error}</p>
+{/if}
+
 <style>
 	header {
 		color: white;

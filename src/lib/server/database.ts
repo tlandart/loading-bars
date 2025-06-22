@@ -57,3 +57,10 @@ export function deleteBar(id: string) {
 	bars.splice(index, 1);
 	return bars;
 }
+
+export function editBar(id: string, start?: number, end?: number, name?: number) {
+	const index = bars.findIndex((bar) => bar.id === id);
+	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
+	bars.splice(index, 1);
+	return bars;
+}

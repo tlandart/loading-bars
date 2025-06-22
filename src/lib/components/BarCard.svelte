@@ -2,11 +2,13 @@
 	import { enhance } from '$app/forms';
 	import Bar from '$lib/components/Bar.svelte';
 	import { now } from '$lib/shared.svelte';
-	import ButtonConfirm from './ButtonConfirm.svelte';
+	import ButtonConfirm from '$lib/components/ButtonConfirm.svelte';
+	import PopupMenu from '$lib/components/PopupMenu.svelte';
 
 	let { id, start = 0, end = 0, name = '' } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
+	let editFormToggle = $state(false);
 
 	let formBind: HTMLFormElement;
 
@@ -44,6 +46,8 @@
 	// };
 </script>
 
+<PopupMenu bind:isOpen={editFormToggle} header="Edit Bar">dfsfsd</PopupMenu>
+
 <div class="panel">
 	<Bar {start} {end} />
 	<div class="panelbottom">
@@ -55,16 +59,23 @@
 			{/if}
 			<span class="title">{name}</span>
 		</div>
-		<form method="POST" action="?/delete" bind:this={formBind} use:enhance>
-			<input name="id" type="hidden" value={id} />
-			<ButtonConfirm
-				innerText="Delete&nbsp&nbsp"
-				confirmText="Delete?"
-				onEnd={() => {
-					formBind.requestSubmit();
-				}}
-			/>
-		</form>
+		<div class="panelbottomright">
+			<button
+				onclick={() => {
+					editFormToggle = true;
+				}}>Edit</button
+			>
+			<form method="POST" action="?/delete" bind:this={formBind} use:enhance>
+				<input name="id" type="hidden" value={id} />
+				<ButtonConfirm
+					innerText="Delete&nbsp&nbsp"
+					confirmText="Delete?"
+					onEnd={() => {
+						formBind.requestSubmit();
+					}}
+				/>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -86,7 +97,8 @@
 		text-overflow: clip;
 	}
 
-	form {
+	.panelbottomright {
+		display: flex;
 		width: fit-content;
 		margin-left: auto;
 		margin-top: auto;
@@ -104,5 +116,15 @@
 	.title {
 		font-size: 15px;
 		color: var(--col-deselect);
+	}
+
+	button {
+		color: var(--col-deselect);
+		background-color: var(--col-background);
+		font-size: 15px;
+		border: none;
+		border-radius: var(--radius-amount);
+		padding: 5px 10px;
+		cursor: pointer;
 	}
 </style>

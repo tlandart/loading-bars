@@ -20,9 +20,11 @@ export const actions = {
 			try {
 				bars = db.getBars(obj);
 				// note that on a form action, the load() function runs again, so our update of bars will be propogated
+				return { success: true };
 			} catch (error) {
 				console.error((<Error>error).message);
 				return fail(405, {
+					success: false,
 					error: (<Error>error).message
 				});
 			}
@@ -83,9 +85,11 @@ export const actions = {
 		try {
 			bars = db.createBar(start, end, name);
 			console.log('Successfully created bar "' + name + '"');
+			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);
 			return fail(406, {
+				success: false,
 				error: (<Error>error).message
 			});
 		}
@@ -97,9 +101,11 @@ export const actions = {
 		try {
 			bars = db.deleteBar(id);
 			console.log('Successfully deleted bar "' + id + '"');
+			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);
 			return fail(407, {
+				success: false,
 				error: (<Error>error).message
 			});
 		}

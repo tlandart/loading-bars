@@ -29,17 +29,18 @@
 </button>
 
 <style>
-	button {
-		color: var(--col-deselect);
-		background-color: black;
-		font-size: 15px;
-		border: none;
-		border-radius: 2px;
-		padding: 5px 10px;
-		cursor: pointer;
-	}
 	.confirm {
 		color: black;
 		background-color: var(--col-deselect);
+	}
+
+	button {
+		color: var(--col-deselect);
+		background-color: var(--col-background);
+		font-size: 15px;
+		border: none;
+		border-radius: var(--radius-amount);
+		padding: 5px 10px;
+		cursor: pointer;
 	}
 </style>

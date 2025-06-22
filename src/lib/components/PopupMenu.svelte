@@ -1,11 +1,19 @@
 <script>
-	let { children, isOpen = $bindable() } = $props();
+	let { children, isOpen = $bindable(), header = '', form = null } = $props();
 
 	// based on https://svelte.dev/playground/modal
 	let dialog = $state();
 
 	$effect(() => {
 		if (isOpen) dialog.showModal();
+		else dialog.close();
+	});
+
+	$effect(() => {
+		// you don't have to pass a form, but if you do, the dialog will close once it successfully submits
+		if (form?.success) {
+			dialog.close();
+		}
 	});
 </script>
 
@@ -24,6 +32,7 @@
 		}}
 	></button>
 	<div class="foreground">
+		<h1>{header}</h1>
 		<button
 			class="close"
 			aria-label="Close"
@@ -36,6 +45,11 @@
 </dialog>
 
 <style>
+	h1 {
+		margin: 0px;
+		margin-bottom: 10px;
+	}
+
 	dialog {
 		margin: 0;
 		padding: 0;
@@ -65,17 +79,17 @@
 		transform: translate(-50%, -50%);
 		padding: 25px;
 		border: 2px solid var(--col-deselect);
-		border-radius: 2px;
-		background-color: black;
+		border-radius: var(--radius-amount);
+		background-color: var(--col-background);
 		z-index: 2000;
 	}
 
 	.close {
 		color: var(--col-deselect);
-		background-color: black;
+		background-color: var(--col-background);
 		font-size: 20px;
 		border: none;
-		border-radius: 2px;
+		border-radius: var(--radius-amount);
 		padding: 5px 10px;
 		cursor: pointer;
 		position: absolute;

@@ -22,10 +22,30 @@
 </div>
 
 <style>
+	@keyframes glow {
+		from {
+			filter: hue-rotate(0deg) brightness(100%);
+			box-shadow: 0px 0px 0px var(--col-select-2);
+		}
+		to {
+			filter: hue-rotate(33deg) brightness(125%);
+			box-shadow: 0px 0px 7px var(--col-select-2);
+		}
+	}
+
 	.bar {
+		filter: hue-rotate(0deg);
 		position: relative;
 		width: 100%;
 		height: 50px;
+	}
+
+	.bar:hover {
+		animation-name: glow;
+		animation-duration: 0.75s;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+		animation-timing-function: ease-out;
 	}
 
 	.outerbar {
@@ -33,19 +53,26 @@
 		height: 100%;
 		background-color: var(--col-deselect);
 		position: absolute;
-		border-radius: 2px;
+		border-radius: var(--radius-amount);
 	}
 
 	.innerbar {
 		height: 100%;
 		background-image: linear-gradient(var(--col-select-2), var(--col-select));
 		/* background-color: var(--col-select); */
-		border-radius: 2px;
+		border-radius: var(--radius-amount);
 	}
 
 	.shadow {
 		top: 3px;
 		left: 3px;
 		filter: brightness(0.33);
+		transition-duration: 0.3s;
+	}
+
+	.bar:hover > .shadow {
+		top: 4px;
+		left: 4px;
+		filter: brightness(0.5);
 	}
 </style>

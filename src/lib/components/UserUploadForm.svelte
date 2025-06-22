@@ -25,6 +25,10 @@
 	<noscript><input type="submit" /></noscript>
 </form>
 
+{#if form?.error}
+	<p class="error">{form.error}</p>
+{/if}
+
 <style>
 	input {
 		color: var(--col-deselect);
