@@ -13,6 +13,14 @@
 	// 	let end = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
 	// 	return { start, end };
 	// };
+
+	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
+		let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
+		val = Math.max(val, Number(event.currentTarget.min));
+		val = Math.min(val, Number(event.currentTarget.max));
+		console.log(val);
+		event.currentTarget.value = val.toString();
+	}
 </script>
 
 <button
@@ -86,6 +94,7 @@
 				onclick={(e) => {
 					(e.target as HTMLInputElement).select();
 				}}
+				onwheel={handleWheel}
 				required
 			/>
 			<label for="relativestarthou">hours,</label>
@@ -99,6 +108,7 @@
 				onclick={(e) => {
 					(e.target as HTMLInputElement).select();
 				}}
+				onwheel={handleWheel}
 				required
 			/>
 			<label for="relativestartmin">minutes,</label>
@@ -112,6 +122,7 @@
 				onclick={(e) => {
 					(e.target as HTMLInputElement).select();
 				}}
+				onwheel={handleWheel}
 				required
 			/>
 			<label for="relativestartsec">seconds</label>
@@ -127,6 +138,7 @@
 			onclick={(e) => {
 				(e.target as HTMLInputElement).select();
 			}}
+			onwheel={handleWheel}
 			required
 		/>
 		<label for="relativeendhou">hours,</label>
@@ -140,6 +152,7 @@
 			onclick={(e) => {
 				(e.target as HTMLInputElement).select();
 			}}
+			onwheel={handleWheel}
 			required
 		/>
 		<label for="relativeendmin">minutes,</label>
@@ -153,6 +166,7 @@
 			onclick={(e) => {
 				(e.target as HTMLInputElement).select();
 			}}
+			onwheel={handleWheel}
 			required
 		/>
 		<label for="relativeendsec">seconds</label>

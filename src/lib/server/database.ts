@@ -46,7 +46,7 @@ export function getBars(obj?: any) {
 }
 
 export function createBar(start: number, end: number, name: string) {
-	if (start > end) throw new Error('Bar cannot start after it ends.');
+	if (start >= end) throw new Error('Bar cannot start after it ends.');
 	bars.push({ id: crypto.randomUUID(), start, end, name });
 	return bars;
 }

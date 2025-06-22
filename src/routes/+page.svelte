@@ -11,7 +11,6 @@
 	// TODO QOL: style create form
 	// TODO FEAT: edit bar menu
 	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
-	// TODO QOL: scollable inputs on relative create form
 	// TODO FEAT: button to hide all other buttons, so the ui is clean (just the bars, timers, and names)
 </script>
 
