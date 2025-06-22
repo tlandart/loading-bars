@@ -36,9 +36,10 @@
 		border: none;
 		border-radius: 2px;
 		padding: 5px 10px;
+		cursor: pointer;
 	}
 	.confirm {
-		color: var(--black);
+		color: black;
 		background-color: var(--col-deselect);
 	}
 </style>

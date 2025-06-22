@@ -5,14 +5,14 @@
 	let startNowToggle = $state(true);
 	let absoluteFormToggle = $state(true);
 
-	// for default values in the absolute form
-	const getDateStrings = () => {
-		let now = new Date();
-		now.setTime(now.getTime() - now.getTimezoneOffset() * 60000);
-		let dateStringStart = now.toISOString().slice(0, -5);
-		let dateStringEnd = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
-		return { dateStringStart, dateStringEnd };
-	};
+	// for default, min, and max values in absolute form
+	// const getDateStrings = () => {
+	// 	const now = new Date();
+	// 	now.setTime(now.getTime() - now.getTimezoneOffset() * 60000);
+	// 	let start = now.toISOString().slice(0, -5);
+	// 	let end = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
+	// 	return { start, end };
+	// };
 </script>
 
 <button
@@ -55,9 +55,11 @@
 				id="startdatetime"
 				name="startdatetime"
 				type="datetime-local"
-				step="2"
-				defaultValue={getDateStrings().dateStringStart}
+				step="1"
 				required
+				onchange={(e) => {
+					console.log(e.currentTarget.value);
+				}}
 			/>
 		{/if}
 		<label for="enddatetime">End</label>
@@ -65,9 +67,11 @@
 			id="enddatetime"
 			name="enddatetime"
 			type="datetime-local"
-			step="2"
-			defaultValue={getDateStrings().dateStringEnd}
+			step="1"
 			required
+			onchange={(e) => {
+				console.log(e.currentTarget.value);
+			}}
 		/>
 	{:else}
 		{#if !startNowToggle}
@@ -157,7 +161,6 @@
 </form>
 
 <style>
-	label,
 	header {
 		color: white;
 	}

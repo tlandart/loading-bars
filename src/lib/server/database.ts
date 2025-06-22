@@ -34,12 +34,14 @@ function isValidObj(obj: any) {
 	return true;
 }
 
-export function getBars(obj: any) {
-	if (!isValidObj(obj)) throw new Error('Uploaded file is not a valid save.');
-	while (bars.length > 0) bars.pop();
-	(obj as Bar[]).forEach((value) => {
-		bars.push(value);
-	});
+export function getBars(obj?: any) {
+	if (obj) {
+		if (!isValidObj(obj)) throw new Error('Uploaded file is not a valid save.');
+		while (bars.length > 0) bars.pop();
+		(obj as Bar[]).forEach((value) => {
+			bars.push(value);
+		});
+	}
 	return bars;
 }
 

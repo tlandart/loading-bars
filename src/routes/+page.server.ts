@@ -19,6 +19,7 @@ export const actions = {
 			let obj = JSON.parse(text);
 			try {
 				bars = db.getBars(obj);
+				// note that on a form action, the load() function runs again, so our update of bars will be propogated
 			} catch (error) {
 				console.error((<Error>error).message);
 				return fail(405, {

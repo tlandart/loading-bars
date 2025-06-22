@@ -22,12 +22,6 @@
 </div>
 
 <style>
-	:global(:root) {
-		--col-deselect: rgb(223, 223, 223);
-		--col-select: rgb(222, 34, 222);
-		--col-select-2: rgb(253, 75, 252);
-	}
-
 	.bar {
 		position: relative;
 		width: 100%;

@@ -8,7 +8,7 @@
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 
-	let submitButton: HTMLInputElement;
+	let formBind: HTMLFormElement;
 
 	$effect(() => {
 		timeLeft = Math.min(end - now.getTime(), end - start);
@@ -55,24 +55,22 @@
 			{/if}
 			<span class="title">{name}</span>
 		</div>
-		<form method="POST" action="?/delete" use:enhance>
+		<form method="POST" action="?/delete" bind:this={formBind} use:enhance>
 			<input name="id" type="hidden" value={id} />
 			<ButtonConfirm
 				innerText="Delete&nbsp&nbsp"
 				confirmText="Delete?"
 				onEnd={() => {
-					submitButton.click();
+					formBind.requestSubmit();
 				}}
 			/>
-			<input type="submit" style="display: none" bind:this={submitButton} />
 		</form>
 	</div>
 </div>
 
 <style>
 	.panel {
-		margin-top: 5px;
-		margin-bottom: 10px;
+		margin: 10px 0px;
 		width: 100%;
 	}
 
@@ -96,7 +94,7 @@
 
 	.timestamp {
 		font-size: 20px;
-		color: var(--col-deselect);
+		color: white;
 		background-color: transparent;
 		padding: 0px 10px;
 		padding-right: 5px;
