@@ -49,7 +49,13 @@
 <PopupMenu bind:isOpen={editFormToggle} header="Edit Bar">dfsfsd</PopupMenu>
 
 <div class="panel">
-	<Bar {start} {end} />
+	<Bar
+		{start}
+		{end}
+		onclick={() => {
+			editFormToggle = true;
+		}}
+	/>
 	<div class="panelbottom">
 		<div class="panelbottomleft">
 			{#if timeLeft >= 0}
