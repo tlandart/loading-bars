@@ -100,7 +100,7 @@ export const actions = {
 
 		try {
 			bars = db.deleteBar(id);
-			console.log('Successfully deleted bar "' + id + '"');
+			console.log('Successfully deleted bar id: "' + id + '"');
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);

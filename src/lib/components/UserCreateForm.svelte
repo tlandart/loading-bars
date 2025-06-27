@@ -1,15 +1,21 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 
-	let { form } = $props();
+	let { form, dialogClose = () => {} } = $props();
 	let startNowToggle = $state(true);
 	let absoluteFormToggle = $state(false);
 
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
-		let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
-		val = Math.max(val, Number(event.currentTarget.min));
-		val = Math.min(val, Number(event.currentTarget.max));
-		event.currentTarget.value = val.toString();
+		if (event.currentTarget !== document.activeElement) {
+			let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
+			val = Math.max(val, Number(event.currentTarget.min));
+			val = Math.min(val, Number(event.currentTarget.max));
+			event.currentTarget.value = val.toString();
+		}
+	}
+
+	function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
+		dialogClose();
 	}
 </script>
 
@@ -25,7 +31,7 @@
 	{/if}
 </button>
 
-<form method="POST" action="?/create" use:enhance>
+<form method="POST" action="?/create" onsubmit={(event) => handleSubmit(event)} use:enhance>
 	<label for="name">Name</label>
 	<input
 		id="name"

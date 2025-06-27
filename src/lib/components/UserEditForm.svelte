@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 
 	// corresponding to the bar that this form is editing
-	let { barId, barStart = 0, barEnd = 0, barName = '', form } = $props();
+	let { barId, barStart = 0, barEnd = 0, barName = '', form, dialogClose = () => {} } = $props();
 	let absoluteFormToggle = $state(false);
 
 	// for default values in absolute form
@@ -17,10 +17,16 @@
 	};
 
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
-		let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
-		val = Math.max(val, Number(event.currentTarget.min));
-		val = Math.min(val, Number(event.currentTarget.max));
-		event.currentTarget.value = val.toString();
+		if (event.currentTarget !== document.activeElement) {
+			let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
+			val = Math.max(val, Number(event.currentTarget.min));
+			val = Math.min(val, Number(event.currentTarget.max));
+			event.currentTarget.value = val.toString();
+		}
+	}
+
+	function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
+		dialogClose();
 	}
 </script>
 
@@ -36,12 +42,19 @@
 	{/if}
 </button>
 
-<form method="POST" action="?/edit" use:enhance>
+<form method="POST" action="?/edit" onsubmit={(event) => handleSubmit(event)} use:enhance>
 	<input name="editid" type="hidden" value={barId} />
 	<input name="editoldstart" type="hidden" value={barStart} />
 	<input name="editoldend" type="hidden" value={barEnd} />
 	<label for={'editname' + barId}>Name</label>
-	<input id={'editname' + barId} name="editname" type="text" autocomplete="off" value={barName} />
+	<input
+		id={'editname' + barId}
+		name="editname"
+		type="text"
+		autocomplete="off"
+		value={barName}
+		defaultValue={barName}
+	/>
 	<input name="editabsoluteform" type="hidden" value={absoluteFormToggle} />
 	{#if absoluteFormToggle}
 		<label for={'editstartdatetime' + barId}>Start</label>

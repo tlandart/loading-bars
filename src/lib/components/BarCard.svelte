@@ -6,7 +6,7 @@
 	import PopupMenu from '$lib/components/PopupMenu.svelte';
 	import UserEditForm from '$lib/components/UserEditForm.svelte';
 
-	let { id, start = 0, end = 0, name = '', form } = $props();
+	let { id, start = 0, end = 0, name = '', form = null } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
@@ -48,7 +48,10 @@
 </script>
 
 <PopupMenu bind:isOpen={editFormToggle} header="Edit Bar" {form}>
-	<UserEditForm barId={id} barStart={start} barEnd={end} barName={name} {form} />
+	<!-- This took me a while to figure out. Using snippets, we pass dialogClose(), as defined in PopupMenu, into its child, in this case UserEditForm. Then we can call it from anywhere in the child, in this case once the form in it submits. -->
+	{#snippet children({ dialogClose = () => {} })}
+		<UserEditForm barId={id} barStart={start} barEnd={end} barName={name} {form} {dialogClose} />
+	{/snippet}
 </PopupMenu>
 
 <div class="panel">

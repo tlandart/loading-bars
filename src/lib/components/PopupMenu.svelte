@@ -4,16 +4,13 @@
 	// based on https://svelte.dev/playground/modal
 	let dialog = $state();
 
-	$effect(() => {
-		if (isOpen) dialog.showModal();
-		else dialog.close();
-	});
+	// this function will be passed to the rendered children so they can use them if needed
+	function dialogClose() {
+		dialog.close();
+	}
 
 	$effect(() => {
-		// you don't have to pass a form, but if you do, the dialog will close once it successfully submits
-		if (form?.success) {
-			dialog.close();
-		}
+		if (isOpen) dialog.showModal();
 	});
 </script>
 
@@ -40,7 +37,7 @@
 				dialog.close();
 			}}>X</button
 		>
-		{@render children()}
+		{@render children({ dialogClose })}
 	</div>
 </dialog>
 

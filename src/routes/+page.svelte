@@ -9,7 +9,6 @@
 	let createFormToggle = $state(false);
 
 	// TODO QOL: style create form
-	// TODO FEAT: edit bar menu
 	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
 	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names)
 </script>
@@ -25,7 +24,9 @@
 	</div>
 	<BarCardHolder bars={data.bars} />
 	<PopupMenu bind:isOpen={createFormToggle} header="Add Bar" {form}>
-		<UserCreateForm {form} />
+		{#snippet children({ dialogClose = () => {} })}
+			<UserCreateForm {form} {dialogClose} />
+		{/snippet}
 	</PopupMenu>
 	<button
 		onclick={() => {
