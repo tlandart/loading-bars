@@ -3,22 +3,12 @@
 
 	let { form } = $props();
 	let startNowToggle = $state(true);
-	let absoluteFormToggle = $state(true);
-
-	// for default, min, and max values in absolute form
-	// const getDateStrings = () => {
-	// 	const now = new Date();
-	// 	now.setTime(now.getTime() - now.getTimezoneOffset() * 60000);
-	// 	let start = now.toISOString().slice(0, -5);
-	// 	let end = new Date(now.getTime() + 10 * 60000).toISOString().slice(0, -5);
-	// 	return { start, end };
-	// };
+	let absoluteFormToggle = $state(false);
 
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
 		let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
 		val = Math.max(val, Number(event.currentTarget.min));
 		val = Math.min(val, Number(event.currentTarget.max));
-		console.log(val);
 		event.currentTarget.value = val.toString();
 	}
 </script>
@@ -59,28 +49,10 @@
 	{#if absoluteFormToggle}
 		{#if !startNowToggle}
 			<label for="startdatetime">Start</label>
-			<input
-				id="startdatetime"
-				name="startdatetime"
-				type="datetime-local"
-				step="1"
-				required
-				onchange={(e) => {
-					console.log(e.currentTarget.value);
-				}}
-			/>
+			<input id="startdatetime" name="startdatetime" type="datetime-local" step="1" required />
 		{/if}
 		<label for="enddatetime">End</label>
-		<input
-			id="enddatetime"
-			name="enddatetime"
-			type="datetime-local"
-			step="1"
-			required
-			onchange={(e) => {
-				console.log(e.currentTarget.value);
-			}}
-		/>
+		<input id="enddatetime" name="enddatetime" type="datetime-local" step="1" required />
 	{:else}
 		{#if !startNowToggle}
 			<header>Start in</header>

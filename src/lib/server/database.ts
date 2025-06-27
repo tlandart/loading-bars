@@ -58,9 +58,25 @@ export function deleteBar(id: string) {
 	return bars;
 }
 
-export function editBar(id: string, start?: number, end?: number, name?: number) {
+export function editBar(id: string, start?: number, end?: number, name?: string) {
 	const index = bars.findIndex((bar) => bar.id === id);
 	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
-	bars.splice(index, 1);
+
+	if (start && end) {
+		// start and end
+		if (start >= end) throw new Error('Bar cannot start after it ends.');
+		bars[index].start = start;
+		bars[index].end = end;
+	} else if (start) {
+		// start and !end
+		if (start >= bars[index].end) throw new Error('Bar cannot start after it ends.');
+		bars[index].start = start;
+	} else if (end) {
+		// !start and end
+		if (bars[index].start >= end) throw new Error('Bar cannot start after it ends.');
+		bars[index].end = end;
+	}
+
+	if (name) bars[index].name = name;
 	return bars;
 }

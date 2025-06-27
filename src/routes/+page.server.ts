@@ -109,5 +109,60 @@ export const actions = {
 				error: (<Error>error).message
 			});
 		}
+	},
+	edit: async ({ cookies, request }) => {
+		/* request.formData() should return:
+			editid (string)
+			editname (string)
+			if editabsoluteform=true:
+				editstartdatetime (ISO date string)
+				editenddatetime (ISO date string)
+			else:
+				editrelativestarthou (-99-99)
+				editrelativestartmin (-59-59)
+				editrelativestartsec (-59-59)
+				editrelativeendhou (-99-99)
+				editrelativeendmin (-59-59)
+				editrelativeendsec (-59-59)
+		*/
+		const data = await request.formData();
+		const id = data.get('editid') as string;
+
+		let oldStart = JSON.parse(data.get('editoldstart') as string) as number;
+		let oldEnd = JSON.parse(data.get('editoldend') as string) as number;
+		let start: number | undefined,
+			end: number | undefined,
+			name: string | undefined = data.get('editname') as string | undefined;
+
+		const absoluteForm = JSON.parse(data.get('editabsoluteform') as string) as boolean;
+
+		if (absoluteForm) {
+			let startDateTime = data.get('editstartdatetime') as string;
+			start = new Date(startDateTime).getTime();
+			let endDateTime = data.get('editenddatetime') as string;
+			end = new Date(endDateTime).getTime();
+		} else {
+			let relativeStartHou = JSON.parse(data.get('editrelativestarthou') as string) as number;
+			let relativeStartMin = JSON.parse(data.get('editrelativestartmin') as string) as number;
+			let relativeStartSec = JSON.parse(data.get('editrelativestartsec') as string) as number;
+			start =
+				oldStart + relativeStartHou * 3600000 + relativeStartMin * 60000 + relativeStartSec * 1000;
+			let relativeEndHou = JSON.parse(data.get('editrelativeendhou') as string) as number;
+			let relativeEndMin = JSON.parse(data.get('editrelativeendmin') as string) as number;
+			let relativeEndSec = JSON.parse(data.get('editrelativeendsec') as string) as number;
+			end = oldEnd + relativeEndHou * 3600000 + relativeEndMin * 60000 + relativeEndSec * 1000;
+		}
+
+		try {
+			bars = db.editBar(id, start, end, name);
+			console.log('Successfully edited bar "' + name + '"');
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
 	}
 };

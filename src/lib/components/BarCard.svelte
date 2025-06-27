@@ -4,8 +4,9 @@
 	import { now } from '$lib/shared.svelte';
 	import ButtonConfirm from '$lib/components/ButtonConfirm.svelte';
 	import PopupMenu from '$lib/components/PopupMenu.svelte';
+	import UserEditForm from '$lib/components/UserEditForm.svelte';
 
-	let { id, start = 0, end = 0, name = '' } = $props();
+	let { id, start = 0, end = 0, name = '', form } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
@@ -46,7 +47,9 @@
 	// };
 </script>
 
-<PopupMenu bind:isOpen={editFormToggle} header="Edit Bar">dfsfsd</PopupMenu>
+<PopupMenu bind:isOpen={editFormToggle} header="Edit Bar" {form}>
+	<UserEditForm barId={id} barStart={start} barEnd={end} barName={name} {form} />
+</PopupMenu>
 
 <div class="panel">
 	<Bar
