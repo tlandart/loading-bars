@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	let { children, isOpen = $bindable(), header = '', form = null } = $props();
 
 	// based on https://svelte.dev/playground/modal
-	let dialog = $state();
+	let dialog: HTMLDialogElement | undefined = $state();
 
 	// this function will be passed to the rendered children so they can use them if needed
 	function dialogClose() {
-		dialog.close();
+		dialog?.close();
 	}
 
 	$effect(() => {
-		if (isOpen) dialog.showModal();
+		if (isOpen) dialog?.showModal();
 	});
 </script>
 
@@ -25,7 +25,7 @@
 		aria-label="Close"
 		tabindex="-1"
 		onclick={() => {
-			dialog.close();
+			dialog?.close();
 		}}
 	></button>
 	<div class="foreground">
@@ -34,7 +34,7 @@
 			class="close"
 			aria-label="Close"
 			onclick={() => {
-				dialog.close();
+				dialog?.close();
 			}}>X</button
 		>
 		{@render children({ dialogClose })}

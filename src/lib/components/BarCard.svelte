@@ -2,11 +2,12 @@
 	import { enhance } from '$app/forms';
 	import Bar from '$lib/components/Bar.svelte';
 	import { now } from '$lib/shared.svelte';
-	import ButtonConfirm from '$lib/components/ButtonConfirm.svelte';
-	import PopupMenu from '$lib/components/PopupMenu.svelte';
+	import ButtonConfirm from '$lib/components/misc/ButtonConfirm.svelte';
+	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
 	import UserEditForm from '$lib/components/UserEditForm.svelte';
+	import UserGroupsForm from '$lib/components/UserGroupsForm.svelte';
 
-	let { id, start = 0, end = 0, name = '', form = null } = $props();
+	let { id, start = 0, end = 0, name = '', groups = [], allGroups = [], form = null } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
@@ -51,6 +52,7 @@
 	<!-- This took me a while to figure out. Using snippets, we pass dialogClose(), as defined in PopupMenu, into its child, in this case UserEditForm. Then we can call it from anywhere in the child, in this case once the form in it submits. -->
 	{#snippet children({ dialogClose = () => {} })}
 		<UserEditForm barId={id} barStart={start} barEnd={end} barName={name} {form} {dialogClose} />
+		<UserGroupsForm barId={id} barGroups={groups} {allGroups} {form} />
 	{/snippet}
 </PopupMenu>
 

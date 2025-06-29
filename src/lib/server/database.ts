@@ -60,13 +60,7 @@ export function deleteBar(id: string) {
 	return bars;
 }
 
-export function editBar(
-	id: string,
-	start?: number,
-	end?: number,
-	name?: string,
-	groups?: string[]
-) {
+export function editBar(id: string, start?: number, end?: number, name?: string) {
 	const index = bars.findIndex((bar) => bar.id === id);
 	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
 
@@ -86,6 +80,13 @@ export function editBar(
 	}
 
 	if (name) bars[index].name = name;
+	return bars;
+}
+
+export function editGroupBar(id: string, groups?: string[], newGroupName?: string) {
+	const index = bars.findIndex((bar) => bar.id === id);
+	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
 	if (groups) bars[index].groups = groups;
+	if (newGroupName) bars[index].groups = [...bars[index].groups, newGroupName];
 	return bars;
 }

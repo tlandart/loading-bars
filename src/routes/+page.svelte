@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BarCardHolder from '$lib/components/BarCardHolder.svelte';
-	import PopupMenu from '$lib/components/PopupMenu.svelte';
+	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
 	import UserCreateForm from '$lib/components/UserCreateForm.svelte';
 	import UserDownloadForm from '$lib/components/UserDownloadForm.svelte';
 	import UserUploadForm from '$lib/components/UserUploadForm.svelte';
@@ -10,8 +10,10 @@
 
 	// TODO QOL: style forms
 	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
+	// TODO FEAT: groups editor, where you can assign colours to groups and delete them (can't add because that has to be in the edit menu. this could also be changed. but itll take a while)
 	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names). use useContext for on/off state
 	// TODO FEAT: add themes (just color changes?) use useContext
+	// TODO FEAT: filter bars by name or date(s) or groupnames
 </script>
 
 <div class="page">

@@ -1,5 +1,5 @@
-<script>
-	// Holds all the bar cards, and has the timer system for how often to update the SvelteDate.
+<script lang="ts">
+	// Holds all the bar cards, and handles rendering of groups. Also has the timer system for how often to update the SvelteDate.
 
 	import BarCard from '$lib/components/BarCard.svelte';
 	import { now } from '$lib/shared.svelte';
@@ -28,10 +28,23 @@
 			cancelAnimationFrame(frame);
 		};
 	});
+
+	function getAllGroups(): any {
+		let groups: Set<string> = new Set();
+		for (let bar of bars) groups = groups.union(new Set(bar.groups));
+		return [...groups].sort();
+	}
 </script>
 
 {#each bars as bar}
 	{#if now.getTime() < bar.end}
-		<BarCard id={bar.id} start={bar.start} end={bar.end} name={bar.name} />
+		<BarCard
+			id={bar.id}
+			start={bar.start}
+			end={bar.end}
+			name={bar.name}
+			groups={bar.groups}
+			allGroups={getAllGroups()}
+		/>
 	{/if}
 {/each}

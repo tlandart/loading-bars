@@ -24,10 +24,6 @@
 			event.currentTarget.value = val.toString();
 		}
 	}
-
-	function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
-		dialogClose();
-	}
 </script>
 
 <button
@@ -42,7 +38,7 @@
 	{/if}
 </button>
 
-<form method="POST" action="?/edit" onsubmit={(event) => handleSubmit(event)} use:enhance>
+<form method="POST" action="?/edit" onsubmit={() => dialogClose()} use:enhance>
 	<input name="editid" type="hidden" value={barId} />
 	<input name="editoldstart" type="hidden" value={barStart} />
 	<input name="editoldend" type="hidden" value={barEnd} />

@@ -168,11 +168,29 @@ export const actions = {
 	editGroups: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const id = data.get('editid') as string;
-		let groups: string[] = JSON.parse(data.get('groups') as string);
+		let groups: string[] = data.getAll('groups') as string[];
 
 		try {
-			bars = db.editBar(id, undefined, undefined, undefined, groups);
+			bars = db.editGroupBar(id, groups);
 			console.log(`Successfully edited groups for bar id: ${id}`);
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
+	},
+	addGroup: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const id = data.get('editid') as string;
+		let newGroupName: string | undefined = data.get('addgroup') as string | undefined;
+		if (newGroupName === null) newGroupName = undefined;
+
+		try {
+			bars = db.editGroupBar(id, undefined, newGroupName);
+			console.log(`Successfully added group ${newGroupName} to bar id: ${id}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);
