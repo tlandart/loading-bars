@@ -8,9 +8,10 @@
 
 	let createFormToggle = $state(false);
 
-	// TODO QOL: style create form
+	// TODO QOL: style forms
 	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
-	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names)
+	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names). use useContext for on/off state
+	// TODO FEAT: add themes (just color changes?) use useContext
 </script>
 
 <div class="page">

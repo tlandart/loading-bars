@@ -75,8 +75,9 @@
 			<button
 				onclick={() => {
 					editFormToggle = true;
-				}}>Edit</button
-			>
+				}}
+				>Edit
+			</button>
 			<form method="POST" action="?/delete" bind:this={formBind} use:enhance>
 				<input name="id" type="hidden" value={id} />
 				<ButtonConfirm

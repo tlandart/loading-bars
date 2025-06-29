@@ -84,7 +84,7 @@ export const actions = {
 
 		try {
 			bars = db.createBar(start, end, name);
-			console.log('Successfully created bar "' + name + '"');
+			console.log(`Successfully created bar ${name}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);
@@ -100,7 +100,7 @@ export const actions = {
 
 		try {
 			bars = db.deleteBar(id);
-			console.log('Successfully deleted bar id: "' + id + '"');
+			console.log(`Successfully deleted bar id: ${id}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);
@@ -155,7 +155,24 @@ export const actions = {
 
 		try {
 			bars = db.editBar(id, start, end, name);
-			console.log('Successfully edited bar "' + name + '"');
+			console.log(`Successfully edited bar ${name}`);
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
+	},
+	editGroups: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const id = data.get('editid') as string;
+		let groups: string[] = JSON.parse(data.get('groups') as string);
+
+		try {
+			bars = db.editBar(id, undefined, undefined, undefined, groups);
+			console.log(`Successfully edited groups for bar id: ${id}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);

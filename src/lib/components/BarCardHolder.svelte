@@ -31,5 +31,7 @@
 </script>
 
 {#each bars as bar}
-	<BarCard id={bar.id} start={bar.start} end={bar.end} name={bar.name} />
+	{#if now.getTime() < bar.end}
+		<BarCard id={bar.id} start={bar.start} end={bar.end} name={bar.name} />
+	{/if}
 {/each}

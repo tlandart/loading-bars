@@ -5,6 +5,7 @@ export interface Bar {
 	start: number;
 	end: number;
 	name: string;
+	groups: string[];
 }
 
 const bars: Bar[] = [];
@@ -24,7 +25,8 @@ function isValidObj(obj: any) {
 			typeof o['id'] !== 'string' ||
 			typeof o['start'] !== 'number' ||
 			typeof o['end'] !== 'number' ||
-			typeof o['name'] !== 'string'
+			typeof o['name'] !== 'string' ||
+			!Array.isArray(o['groups'])
 		) {
 			console.log('fail');
 			return false;
@@ -47,7 +49,7 @@ export function getBars(obj?: any) {
 
 export function createBar(start: number, end: number, name: string) {
 	if (start >= end) throw new Error('Bar cannot start after it ends.');
-	bars.push({ id: crypto.randomUUID(), start, end, name });
+	bars.push({ id: crypto.randomUUID(), start, end, name, groups: [] });
 	return bars;
 }
 
@@ -58,7 +60,13 @@ export function deleteBar(id: string) {
 	return bars;
 }
 
-export function editBar(id: string, start?: number, end?: number, name?: string) {
+export function editBar(
+	id: string,
+	start?: number,
+	end?: number,
+	name?: string,
+	groups?: string[]
+) {
 	const index = bars.findIndex((bar) => bar.id === id);
 	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
 
@@ -78,5 +86,6 @@ export function editBar(id: string, start?: number, end?: number, name?: string)
 	}
 
 	if (name) bars[index].name = name;
+	if (groups) bars[index].groups = groups;
 	return bars;
 }
