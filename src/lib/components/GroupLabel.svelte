@@ -58,8 +58,8 @@
 		color: var(--col-deselect);
 		border: 1px solid var(--col-deselect);
 		border-radius: var(--radius-amount);
-		transition-duration: 0.3s;
-		opacity: 50%;
+		transition-duration: 0.1s;
+		opacity: 66%;
 	}
 
 	.selected {
