@@ -6,17 +6,14 @@
 	import FormFileUpload from '$lib/components/FormFileUpload.svelte';
 	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
 	import GroupLabelHolder from '$lib/components/GroupLabelHolder.svelte';
-	import { filter } from 'mathjs';
 	let { data, form } = $props();
 
 	let createBarFormToggle = $state(false);
 	let createGroupFormToggle = $state(false);
 	let filterGroups = $state([]);
 
-	$inspect(filterGroups).with(console.log);
-
 	// TODO QOL: style forms
-	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
+	// TODO QOL: toggle for overdue bars
 	// TODO FEAT: groups editor, where you can assign colours to groups and delete them (can't add because that has to be in the edit menu. this could also be changed. but itll take a while)
 	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names). use useContext for on/off state
 	// TODO FEAT: add themes (just color changes?) use useContext

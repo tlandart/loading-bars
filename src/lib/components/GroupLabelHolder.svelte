@@ -26,12 +26,6 @@
 		} else {
 			selectedGroups = selectedGroups.filter((id: string) => id !== groupId);
 		}
-		// make sure only elements from groups are in selectedGroups. this shouldn't even be violated but... just to make sure.
-		selectedGroups = [
-			...new Set(selectedGroups).intersection(
-				new Set(groups.map(({ id, name, color }: Group) => id))
-			)
-		];
 	}
 </script>
 
