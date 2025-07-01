@@ -1,9 +1,9 @@
 <script lang="ts">
 	import BarCardHolder from '$lib/components/BarCardHolder.svelte';
 	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
-	import UserCreateForm from '$lib/components/UserCreateForm.svelte';
-	import UserDownloadForm from '$lib/components/UserDownloadForm.svelte';
-	import UserUploadForm from '$lib/components/UserUploadForm.svelte';
+	import FormBarCreate from '$lib/components/FormBarCreate.svelte';
+	import FormFileDownload from '$lib/components/FormFileDownload.svelte';
+	import FormFileUpload from '$lib/components/FormFileUpload.svelte';
 	let { data, form } = $props();
 
 	let createFormToggle = $state(false);
@@ -19,16 +19,16 @@
 <div class="page">
 	<div class="savearea">
 		<div class="savearealeft">
-			<UserUploadForm {form} />
+			<FormFileUpload {form} />
 		</div>
 		<div class="savearearight">
-			<UserDownloadForm {form} />
+			<FormFileDownload {form} />
 		</div>
 	</div>
 	<BarCardHolder bars={data.bars} />
 	<PopupMenu bind:isOpen={createFormToggle} header="Add Bar" {form}>
 		{#snippet children({ dialogClose = () => {} })}
-			<UserCreateForm {form} {dialogClose} />
+			<FormBarCreate {form} {dialogClose} />
 		{/snippet}
 	</PopupMenu>
 	<button

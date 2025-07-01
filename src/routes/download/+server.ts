@@ -1,8 +1,7 @@
 import * as db from '$lib/server/database';
 
 export const GET = async () => {
-	// Simulated file content – you can use Buffer for binary or real files
-	const jsonFile = JSON.stringify(db.getBars());
+	const jsonFile = JSON.stringify(db.getFile());
 
 	return new Response(jsonFile, {
 		headers: {

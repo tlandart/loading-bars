@@ -27,7 +27,7 @@
 	{/if}
 </button>
 
-<form method="POST" action="?/create" onsubmit={() => dialogClose()} use:enhance>
+<form method="POST" action="?/createbar" onsubmit={() => dialogClose()} use:enhance>
 	<label for="name">Name</label>
 	<input
 		id="name"

@@ -1,12 +1,13 @@
-import type { Bar } from '$lib/server/database';
 import * as db from '$lib/server/database';
 import { fail } from '@sveltejs/kit';
 
-let bars: Bar[] = [];
+let bars: db.Bar[] = [];
+let groups: db.Group[] = [];
 
 export function load() {
 	return {
-		bars: bars
+		bars: bars,
+		groups: groups
 	};
 }
 
@@ -18,8 +19,10 @@ export const actions = {
 		if (text) {
 			let obj = JSON.parse(text);
 			try {
-				bars = db.getBars(obj);
-				// note that on a form action, the load() function runs again, so our update of bars will be propogated
+				const x = db.getFile(obj);
+				bars = x.bars;
+				groups = x.groups;
+				// note that on a form action, the load() function runs again, so our update of bars and groups will be propagated
 				return { success: true };
 			} catch (error) {
 				console.error((<Error>error).message);
@@ -30,7 +33,7 @@ export const actions = {
 			}
 		}
 	},
-	create: async ({ cookies, request }) => {
+	createbar: async ({ cookies, request }) => {
 		/* request.formData() should return:
 			name (string)
 			if absoluteform=true:
@@ -94,7 +97,7 @@ export const actions = {
 			});
 		}
 	},
-	delete: async ({ cookies, request }) => {
+	deletebar: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const id = data.get('id') as string;
 
@@ -110,7 +113,7 @@ export const actions = {
 			});
 		}
 	},
-	edit: async ({ cookies, request }) => {
+	editbar: async ({ cookies, request }) => {
 		/* request.formData() should return:
 			editid (string)
 			editname (string)
@@ -165,7 +168,7 @@ export const actions = {
 			});
 		}
 	},
-	editGroups: async ({ cookies, request }) => {
+	editgroupsbar: async ({ cookies, request }) => {
 		const data = await request.formData();
 		const id = data.get('editid') as string;
 		let groups: string[] = data.getAll('groups') as string[];
@@ -182,15 +185,13 @@ export const actions = {
 			});
 		}
 	},
-	addGroup: async ({ cookies, request }) => {
+	creategroup: async ({ cookies, request }) => {
 		const data = await request.formData();
-		const id = data.get('editid') as string;
-		let newGroupName: string | undefined = data.get('addgroup') as string | undefined;
-		if (newGroupName === null) newGroupName = undefined;
+		let name: string = data.get('groupname') as string;
 
 		try {
-			bars = db.editGroupBar(id, undefined, newGroupName);
-			console.log(`Successfully added group ${newGroupName} to bar id: ${id}`);
+			groups = db.createGroup(name, undefined);
+			console.log(`Successfully created group ${name}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);

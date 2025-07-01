@@ -38,7 +38,7 @@
 	{/if}
 </button>
 
-<form method="POST" action="?/edit" onsubmit={() => dialogClose()} use:enhance>
+<form method="POST" action="?/editbar" onsubmit={() => dialogClose()} use:enhance>
 	<input name="editid" type="hidden" value={barId} />
 	<input name="editoldstart" type="hidden" value={barStart} />
 	<input name="editoldend" type="hidden" value={barEnd} />
