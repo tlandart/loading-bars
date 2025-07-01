@@ -1,32 +1,21 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 
-	let { barId, barGroups = [], allGroups = [], form = null } = $props();
-
-	let formBind: HTMLFormElement;
+	let { form, dialogClose = () => {} } = $props();
 </script>
 
-<form method="POST" action="?/editGroups" bind:this={formBind} use:enhance>
-	{#each allGroups as group}
-		<label>
-			{group}
-			<input
-				name="groups"
-				type="checkbox"
-				checked={barGroups.includes(group)}
-				defaultChecked={barGroups.includes(group)}
-				value={group}
-				onchange={() => formBind.requestSubmit()}
-			/>
-		</label>
-	{/each}
-	<input type="hidden" name="editid" value={barId} />
-	<noscript><input type="submit" value="Edit Groups" /></noscript>
-</form>
-
-<form method="POST" action="?/addGroup" use:enhance>
-	<input type="hidden" name="editid" value={barId} />
-	<label for="addgroup">Group name</label>
-	<input id="addgroup" name="addgroup" type="text" required />
-	<input type="submit" value="Add Group" />
+<form method="POST" action="?/creategroup" onsubmit={() => dialogClose()} use:enhance>
+	<label for="groupname">Name</label>
+	<!-- svelte-ignore a11y_autofocus -->
+	<input id="groupname" name="groupname" type="text" autocomplete="off" required autofocus />
+	<label for="groupcolor">Color</label>
+	<input
+		id="groupcolor"
+		name="groupcolor"
+		type="color"
+		defaultValue="#ff0000"
+		value="#ff0000"
+		required
+	/>
+	<input type="submit" value="Create Group" />
 </form>

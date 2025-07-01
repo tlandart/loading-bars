@@ -174,7 +174,7 @@ export const actions = {
 		let groups: string[] = data.getAll('groups') as string[];
 
 		try {
-			bars = db.editGroupBar(id, groups);
+			bars = db.editGroupsBar(id, groups);
 			console.log(`Successfully edited groups for bar id: ${id}`);
 			return { success: true };
 		} catch (error) {
@@ -187,11 +187,48 @@ export const actions = {
 	},
 	creategroup: async ({ cookies, request }) => {
 		const data = await request.formData();
-		let name: string = data.get('groupname') as string;
+		let name = data.get('groupname') as string;
+		let color = data.get('groupcolor') as string;
 
 		try {
-			groups = db.createGroup(name, undefined);
+			groups = db.createGroup(name, color);
 			console.log(`Successfully created group ${name}`);
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
+	},
+	deletegroup: async ({ cookies, request }) => {
+		const data = await request.formData();
+		let id = data.get('id') as string;
+
+		try {
+			const x = db.deleteGroup(id);
+			bars = x.bars;
+			groups = x.groups;
+			console.log(`Successfully deleted group id: ${id}`);
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
+	},
+	editgroup: async ({ cookies, request }) => {
+		const data = await request.formData();
+		let id = data.get('id') as string;
+		let name = data.get('groupname') as string;
+		let color = data.get('groupcolor') as string;
+
+		try {
+			groups = db.editGroup(id, name, color);
+			console.log(`Successfully edited group id: ${id}`);
 			return { success: true };
 		} catch (error) {
 			console.error((<Error>error).message);

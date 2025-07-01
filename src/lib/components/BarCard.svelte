@@ -5,9 +5,9 @@
 	import ButtonConfirm from '$lib/components/misc/ButtonConfirm.svelte';
 	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
 	import FormBarEdit from '$lib/components/FormBarEdit.svelte';
-	import UserGroupsForm from '$lib/components/FormGroupCreate.svelte';
+	import FormBarEditGroups from './FormBarEditGroups.svelte';
 
-	let { id, start = 0, end = 0, name = '', groups = [], allGroups = [], form = null } = $props();
+	let { bar, groups, form = null } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
@@ -15,7 +15,7 @@
 	let formBind: HTMLFormElement;
 
 	$effect(() => {
-		timeLeft = Math.min(end - now.getTime(), end - start);
+		timeLeft = Math.min(bar.end - now.getTime(), bar.end - bar.start);
 		// TODO make another timer that counts down to when this bar will start
 	});
 
@@ -51,15 +51,15 @@
 <PopupMenu bind:isOpen={editFormToggle} header="Edit Bar" {form}>
 	<!-- This took me a while to figure out. Using snippets, we pass dialogClose(), as defined in PopupMenu, into its child, in this case FormBarEdit. Then we can call it from anywhere in the child, in this case once the form in it submits. -->
 	{#snippet children({ dialogClose = () => {} })}
-		<FormBarEdit barId={id} barStart={start} barEnd={end} barName={name} {form} {dialogClose} />
-		<UserGroupsForm barId={id} barGroups={groups} {allGroups} {form} />
+		<FormBarEdit {bar} {form} {dialogClose} />
+		<FormBarEditGroups {bar} {groups} {form} />
 	{/snippet}
 </PopupMenu>
 
 <div class="panel">
 	<Bar
-		{start}
-		{end}
+		start={bar.start}
+		end={bar.end}
 		onclick={() => {
 			editFormToggle = true;
 		}}
@@ -71,7 +71,7 @@
 			{:else}
 				<span class="timestamp">-{formatTimestamp(-timeLeft)}</span>
 			{/if}
-			<span class="title">{name}</span>
+			<span class="title">{bar.name}</span>
 		</div>
 		<div class="panelbottomright">
 			<button
@@ -81,7 +81,7 @@
 				>Edit
 			</button>
 			<form method="POST" action="?/deletebar" bind:this={formBind} use:enhance>
-				<input name="id" type="hidden" value={id} />
+				<input name="id" type="hidden" value={bar.id} />
 				<ButtonConfirm
 					innerText="Delete&nbsp&nbsp"
 					confirmText="Delete?"

@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { onMount } from 'svelte';
 
-	let { form, dialogClose = () => {} } = $props();
+	let { form, dialogClose = () => {}, createFormToggle = false } = $props();
 	let startNowToggle = $state(true);
 	let absoluteFormToggle = $state(false);
+	let focusThis: HTMLInputElement | null = $state(null);
 
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
 		if (event.currentTarget !== document.activeElement) {
@@ -13,6 +15,13 @@
 			event.currentTarget.value = val.toString();
 		}
 	}
+
+	// $effect(() => {
+	// 	if (createFormToggle) {
+	// 		console.log('focusing', focusThis);
+	// 		focusThis?.focus();
+	// 	}
+	// });
 </script>
 
 <button
@@ -29,15 +38,19 @@
 
 <form method="POST" action="?/createbar" onsubmit={() => dialogClose()} use:enhance>
 	<label for="name">Name</label>
+	<!-- Maybe not the best idea but makes it faster to create -->
+	<!-- svelte-ignore a11y_autofocus -->
 	<input
 		id="name"
 		name="name"
 		type="text"
 		autocomplete="off"
-		onclick={(e) => {
+		onfocus={(e) => {
 			(e.target as HTMLInputElement).select();
 		}}
 		value="New Bar"
+		required
+		autofocus
 	/>
 	<input name="absoluteform" type="hidden" value={absoluteFormToggle} />
 	<input

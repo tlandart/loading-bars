@@ -2,13 +2,13 @@
 	import { enhance } from '$app/forms';
 
 	// corresponding to the bar that this form is editing
-	let { barId, barStart = 0, barEnd = 0, barName = '', form, dialogClose = () => {} } = $props();
+	let { bar, form, dialogClose = () => {} } = $props();
 	let absoluteFormToggle = $state(false);
 
 	// for default values in absolute form
 	const getDateStrings = () => {
-		const startDate = new Date(barStart);
-		const endDate = new Date(barEnd);
+		const startDate = new Date(bar.start);
+		const endDate = new Date(bar.end);
 		startDate.setTime(startDate.getTime() - startDate.getTimezoneOffset() * 60000);
 		endDate.setTime(endDate.getTime() - endDate.getTimezoneOffset() * 60000);
 		let start = startDate.toISOString().slice(0, -5);
@@ -39,23 +39,23 @@
 </button>
 
 <form method="POST" action="?/editbar" onsubmit={() => dialogClose()} use:enhance>
-	<input name="editid" type="hidden" value={barId} />
-	<input name="editoldstart" type="hidden" value={barStart} />
-	<input name="editoldend" type="hidden" value={barEnd} />
-	<label for={'editname' + barId}>Name</label>
+	<input name="editid" type="hidden" value={bar.id} />
+	<input name="editoldstart" type="hidden" value={bar.start} />
+	<input name="editoldend" type="hidden" value={bar.end} />
+	<label for={'editname' + bar.id}>Name</label>
 	<input
-		id={'editname' + barId}
+		id={'editname' + bar.id}
 		name="editname"
 		type="text"
 		autocomplete="off"
-		value={barName}
-		defaultValue={barName}
+		value={bar.name}
+		defaultValue={bar.name}
 	/>
 	<input name="editabsoluteform" type="hidden" value={absoluteFormToggle} />
 	{#if absoluteFormToggle}
-		<label for={'editstartdatetime' + barId}>Start</label>
+		<label for={'editstartdatetime' + bar.id}>Start</label>
 		<input
-			id={'editstartdatetime' + barId}
+			id={'editstartdatetime' + bar.id}
 			name="editstartdatetime"
 			type="datetime-local"
 			step="1"
@@ -65,9 +65,9 @@
 				console.log(e.currentTarget.value);
 			}}
 		/>
-		<label for={'editenddatetime' + barId}>End</label>
+		<label for={'editenddatetime' + bar.id}>End</label>
 		<input
-			id={'editenddatetime' + barId}
+			id={'editenddatetime' + bar.id}
 			name="editenddatetime"
 			type="datetime-local"
 			step="1"
@@ -80,7 +80,7 @@
 	{:else}
 		<header>Add to start</header>
 		<input
-			id={'editrelativestarthou' + barId}
+			id={'editrelativestarthou' + bar.id}
 			name="editrelativestarthou"
 			type="number"
 			min="-99"
@@ -92,9 +92,9 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativestarthou' + barId}>hours,</label>
+		<label for={'editrelativestarthou' + bar.id}>hours,</label>
 		<input
-			id={'editrelativestartmin' + barId}
+			id={'editrelativestartmin' + bar.id}
 			name="editrelativestartmin"
 			type="number"
 			min="-59"
@@ -106,9 +106,9 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativestartmin' + barId}>minutes,</label>
+		<label for={'editrelativestartmin' + bar.id}>minutes,</label>
 		<input
-			id={'editrelativestartsec' + barId}
+			id={'editrelativestartsec' + bar.id}
 			name="editrelativestartsec"
 			type="number"
 			min="-59"
@@ -120,10 +120,10 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativestartsec' + barId}>seconds</label>
+		<label for={'editrelativestartsec' + bar.id}>seconds</label>
 		<header>Add to end</header>
 		<input
-			id={'editrelativeendhou' + barId}
+			id={'editrelativeendhou' + bar.id}
 			name="editrelativeendhou"
 			type="number"
 			min="-99"
@@ -135,9 +135,9 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativeendhou' + barId}>hours,</label>
+		<label for={'editrelativeendhou' + bar.id}>hours,</label>
 		<input
-			id={'editrelativeendmin' + barId}
+			id={'editrelativeendmin' + bar.id}
 			name="editrelativeendmin"
 			type="number"
 			min="-59"
@@ -149,9 +149,9 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativeendmin' + barId}>minutes,</label>
+		<label for={'editrelativeendmin' + bar.id}>minutes,</label>
 		<input
-			id={'editrelativeendsec' + barId}
+			id={'editrelativeendsec' + bar.id}
 			name="editrelativeendsec"
 			type="number"
 			min="-59"
@@ -163,7 +163,7 @@
 			onwheel={handleWheel}
 			required
 		/>
-		<label for={'editrelativeendsec' + barId}>seconds</label>
+		<label for={'editrelativeendsec' + bar.id}>seconds</label>
 	{/if}
 	<input type="submit" />
 </form>

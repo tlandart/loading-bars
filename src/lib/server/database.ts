@@ -64,6 +64,7 @@ export function getFile(obj?: any): { bars: Bar[]; groups: Group[] } {
 		(obj['bars'] as Bar[]).forEach((value) => {
 			bars.push(value);
 		});
+		while (groups.length > 0) groups.pop();
 		(obj['groups'] as Group[]).forEach((value) => {
 			groups.push(value);
 		});
@@ -109,7 +110,7 @@ export function editBar(id: string, start?: number, end?: number, name?: string)
 	return bars;
 }
 
-export function editGroupBar(id: string, groups?: string[]): Bar[] {
+export function editGroupsBar(id: string, groups?: string[]): Bar[] {
 	const index = bars.findIndex((bar) => bar.id === id);
 	if (index === -1) throw new Error('ID ' + id + ' does not match an existing bar.');
 	if (groups) bars[index].groups = groups;
@@ -119,11 +120,9 @@ export function editGroupBar(id: string, groups?: string[]): Bar[] {
 // GROUP MANIPULATION FUNCTIONS
 
 // Checks if strColor is a valid CSS color
-// credit: https://stackoverflow.com/a/56266358
+// credit: https://stackoverflow.com/a/8027444
 const isColor = (strColor: string) => {
-	const s = new Option().style;
-	s.color = strColor;
-	return s.color !== '';
+	return /^#[0-9A-F]{6}$/i.test(strColor);
 };
 
 export function createGroup(name: string, color?: string): Group[] {
@@ -140,4 +139,12 @@ export function deleteGroup(id: string): { bars: Bar[]; groups: Group[] } {
 	// delete the group from every bar
 	for (let bar of bars) bar.groups = bar.groups.filter((group) => group !== id);
 	return { bars, groups };
+}
+
+export function editGroup(id: string, name: string, color: string): Group[] {
+	const index = groups.findIndex((group) => group.id === id);
+	if (index === -1) throw new Error(`ID '${id}' does not match an existing group.`);
+	groups[index].name = name;
+	groups[index].color = color;
+	return groups;
 }

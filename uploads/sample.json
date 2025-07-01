@@ -43,5 +43,9 @@
 			"groups": []
 		}
 	],
-	"groups": []
+	"groups": [
+		{ "id": "1", "name": "Work", "color": "#00ff00" },
+		{ "id": "2", "name": "School", "color": "#0000ff" },
+		{ "id": "3", "name": "Misc", "color": "#ff00ff" }
+	]
 }

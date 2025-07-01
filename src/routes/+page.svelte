@@ -4,9 +4,16 @@
 	import FormBarCreate from '$lib/components/FormBarCreate.svelte';
 	import FormFileDownload from '$lib/components/FormFileDownload.svelte';
 	import FormFileUpload from '$lib/components/FormFileUpload.svelte';
+	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
+	import GroupLabelHolder from '$lib/components/GroupLabelHolder.svelte';
+	import { filter } from 'mathjs';
 	let { data, form } = $props();
 
-	let createFormToggle = $state(false);
+	let createBarFormToggle = $state(false);
+	let createGroupFormToggle = $state(false);
+	let filterGroups = $state([]);
+
+	$inspect(filterGroups).with(console.log);
 
 	// TODO QOL: style forms
 	// TODO FEAT: bar groups OR tags (and finished bars are in a custom group/tag thats in a menu)
@@ -25,17 +32,30 @@
 			<FormFileDownload {form} />
 		</div>
 	</div>
-	<BarCardHolder bars={data.bars} />
-	<PopupMenu bind:isOpen={createFormToggle} header="Add Bar" {form}>
+	<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group" {form}>
+		{#snippet children({ dialogClose = () => {} })}
+			<FormGroupCreate {form} {dialogClose} />
+		{/snippet}
+	</PopupMenu>
+	<button
+		onclick={() => {
+			createGroupFormToggle = true;
+		}}
+		>Add Group
+	</button>
+	<GroupLabelHolder groups={data.groups} bind:selectedGroups={filterGroups} editable />
+	<BarCardHolder bars={data.bars} groups={data.groups} {filterGroups} />
+	<PopupMenu bind:isOpen={createBarFormToggle} header="Add Bar" {form}>
 		{#snippet children({ dialogClose = () => {} })}
 			<FormBarCreate {form} {dialogClose} />
 		{/snippet}
 	</PopupMenu>
 	<button
 		onclick={() => {
-			createFormToggle = true;
-		}}>Add Bar</button
-	>
+			createBarFormToggle = true;
+		}}
+		>Add Bar
+	</button>
 </div>
 
 <style>
@@ -49,6 +69,9 @@
 		--radius-amount: 2px;
 		color: white;
 		background-color: var(--col-background);
+	}
+
+	:global(*) {
 		font-family: 'Roboto', 'Arial', sans-serif;
 	}
 

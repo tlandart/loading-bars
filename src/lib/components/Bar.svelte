@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { now } from '$lib/shared.svelte';
-	import { onMount } from 'svelte';
 
 	let { start = 0, end = 0, onclick = null } = $props();
 	let percentage = $derived(
@@ -8,7 +7,7 @@
 	);
 </script>
 
-<!-- Ignoring these warnings because we have an actual accessibility-friendly edit button, this one is just extra. -->
+<!-- Ignoring these warnings because we do have an actual accessibility-friendly edit button, this one is just extra. -->
 <!-- svelte-ignore a11y_interactive_supports_focus -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->

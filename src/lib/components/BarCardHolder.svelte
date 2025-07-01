@@ -3,8 +3,9 @@
 
 	import BarCard from '$lib/components/BarCard.svelte';
 	import { now } from '$lib/shared.svelte';
+	import { filter } from 'mathjs';
 	import { onMount } from 'svelte';
-	let { bars } = $props();
+	let { bars, groups, filterGroups = [] } = $props();
 
 	// how many ms between updates. don't make too small else lag
 	// 1000 = 1fps, 200 = 5fps, 33 = ~30fps, 17 = ~60fps
@@ -29,22 +30,16 @@
 		};
 	});
 
-	function getAllGroups(): any {
-		let groups: Set<string> = new Set();
-		for (let bar of bars) groups = groups.union(new Set(bar.groups));
-		return [...groups].sort();
+	function checkFilter(barGroups: any[], filterGroups: any[]) {
+		if (filterGroups.length <= 0) return true;
+		else if (barGroups.length > 0)
+			return new Set(barGroups).intersection(new Set(filterGroups)).size > 0;
 	}
 </script>
 
 {#each bars as bar}
-	{#if now.getTime() < bar.end}
-		<BarCard
-			id={bar.id}
-			start={bar.start}
-			end={bar.end}
-			name={bar.name}
-			groups={bar.groups}
-			allGroups={getAllGroups()}
-		/>
+	<!-- {#if now.getTime() < bar.end} -->
+	{#if checkFilter(bar.groups, filterGroups)}
+		<BarCard {bar} {groups} />
 	{/if}
 {/each}
