@@ -1,0 +1,62 @@
+<script lang="ts">
+	import { getContext } from 'svelte';
+
+	let open = $state(false);
+
+	const presentMode: { on: boolean } = getContext('presentMode');
+</script>
+
+<div class="topbar {open ? 'open' : ''}">
+	<button onclick={() => (open = !open)}>
+		{#if open}
+			&#10005
+		{:else}
+			&#8230
+		{/if}
+	</button>
+	{#if open}
+		<label>
+			Present mode
+			<input type="checkbox" bind:checked={presentMode.on} />
+		</label>
+	{/if}
+</div>
+
+<style>
+	.topbar {
+		position: fixed;
+		display: flex;
+		top: 0;
+		left: 0;
+		background-color: var(--col-background);
+		z-index: 5000;
+		padding: 5px;
+		margin: 5px;
+		border-radius: var(--radius-amount);
+		border: 2px solid var(--col-background);
+		transition-duration: 1s;
+	}
+
+	.topbar:hover,
+	.open {
+		border-color: var(--col-deselect);
+		transition-duration: 0.3s;
+	}
+
+	label {
+		font-size: 18px;
+		margin: auto;
+	}
+
+	button {
+		user-select: none;
+		cursor: pointer;
+		font-size: 20px;
+		border: none;
+		padding: 0;
+		color: white;
+		background-color: rgb(0, 0, 0, 0);
+		width: 27px;
+		height: 27px;
+	}
+</style>

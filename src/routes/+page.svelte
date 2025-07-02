@@ -6,53 +6,62 @@
 	import FormFileUpload from '$lib/components/FormFileUpload.svelte';
 	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
 	import GroupLabelHolder from '$lib/components/GroupLabelHolder.svelte';
+	import { setContext } from 'svelte';
+	import TopBar from '$lib/components/misc/TopBar.svelte';
 	let { data, form } = $props();
 
 	let createBarFormToggle = $state(false);
 	let createGroupFormToggle = $state(false);
 	let filterGroups = $state([]);
 
+	let presentMode = $state({ on: false });
+	setContext('presentMode', presentMode);
+
 	// TODO QOL: style forms
 	// TODO QOL: toggle for overdue bars
-	// TODO FEAT: groups editor, where you can assign colours to groups and delete them (can't add because that has to be in the edit menu. this could also be changed. but itll take a while)
-	// TODO FEAT: button to hide all other buttons and disable click-to-edit on bars, so the ui is clean (just the bars, timers, and names). use useContext for on/off state
+	// TODO FEAT: drag bars to reorder them (see https://stackoverflow.com/a/28962290)
 	// TODO FEAT: add themes (just color changes?) use useContext
 	// TODO FEAT: filter bars by name or date(s) or groupnames
 </script>
 
+<TopBar />
 <div class="page">
-	<div class="savearea">
-		<div class="savearealeft">
-			<FormFileUpload {form} />
+	{#if !presentMode.on}
+		<div class="savearea">
+			<div class="savearealeft">
+				<FormFileUpload {form} />
+			</div>
+			<div class="savearearight">
+				<FormFileDownload {form} />
+			</div>
 		</div>
-		<div class="savearearight">
-			<FormFileDownload {form} />
-		</div>
-	</div>
-	<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group" {form}>
-		{#snippet children({ dialogClose = () => {} })}
-			<FormGroupCreate {form} {dialogClose} />
-		{/snippet}
-	</PopupMenu>
-	<button
-		onclick={() => {
-			createGroupFormToggle = true;
-		}}
-		>Add Group
-	</button>
-	<GroupLabelHolder groups={data.groups} bind:selectedGroups={filterGroups} editable />
+		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group" {form}>
+			{#snippet children({ dialogClose = () => {} })}
+				<FormGroupCreate {form} {dialogClose} />
+			{/snippet}
+		</PopupMenu>
+		<button
+			onclick={() => {
+				createGroupFormToggle = true;
+			}}
+			>Add group
+		</button>
+		<GroupLabelHolder groups={data.groups} bind:selectedGroups={filterGroups} editable />
+	{/if}
 	<BarCardHolder bars={data.bars} groups={data.groups} {filterGroups} />
-	<PopupMenu bind:isOpen={createBarFormToggle} header="Add Bar" {form}>
-		{#snippet children({ dialogClose = () => {} })}
-			<FormBarCreate {form} {dialogClose} />
-		{/snippet}
-	</PopupMenu>
-	<button
-		onclick={() => {
-			createBarFormToggle = true;
-		}}
-		>Add Bar
-	</button>
+	{#if !presentMode.on}
+		<PopupMenu bind:isOpen={createBarFormToggle} header="Add Bar" {form}>
+			{#snippet children({ dialogClose = () => {} })}
+				<FormBarCreate {form} {dialogClose} />
+			{/snippet}
+		</PopupMenu>
+		<button
+			onclick={() => {
+				createBarFormToggle = true;
+			}}
+			>Add bar
+		</button>
+	{/if}
 </div>
 
 <style>
@@ -63,7 +72,7 @@
 		--col-select-2: rgb(224, 67, 224); */
 		--col-select: rgb(167, 133, 25);
 		--col-select-2: rgb(206, 172, 60);
-		--radius-amount: 2px;
+		--radius-amount: 3px;
 		color: white;
 		background-color: var(--col-background);
 	}
@@ -77,13 +86,19 @@
 	}
 
 	.page {
-		width: 75%;
+		width: 60%;
 		margin-top: 50px;
 		margin-left: auto;
 		margin-right: auto;
 		padding: 25px;
 		border: 2px solid var(--col-deselect);
 		border-radius: var(--radius-amount);
+	}
+
+	@media (max-width: 1000px) {
+		.page {
+			width: 80%;
+		}
 	}
 
 	.savearea {

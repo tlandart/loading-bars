@@ -3,7 +3,6 @@
 
 	import BarCard from '$lib/components/BarCard.svelte';
 	import { now } from '$lib/shared.svelte';
-	import { filter } from 'mathjs';
 	import { onMount } from 'svelte';
 	let { bars, groups, filterGroups = [] } = $props();
 

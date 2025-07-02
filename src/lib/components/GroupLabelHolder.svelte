@@ -32,7 +32,7 @@
 {#if editable}
 	<label>
 		<input type="checkbox" bind:checked={enableEdit} />
-		Edit Groups
+		Edit groups
 	</label>
 {/if}
 <div class="panel">

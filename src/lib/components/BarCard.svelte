@@ -6,11 +6,14 @@
 	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
 	import FormBarEdit from '$lib/components/FormBarEdit.svelte';
 	import FormBarEditGroups from './FormBarEditGroups.svelte';
+	import { getContext } from 'svelte';
 
 	let { bar, groups, form = null } = $props();
 	let timeLeft = $state(0);
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
+
+	const presentMode: { on: boolean } = getContext('presentMode');
 
 	let formBind: HTMLFormElement;
 
@@ -61,11 +64,11 @@
 		start={bar.start}
 		end={bar.end}
 		onclick={() => {
-			editFormToggle = true;
+			if (!presentMode.on) editFormToggle = true;
 		}}
 	/>
 	<div class="panelbottom">
-		<div class="panelbottomleft">
+		<div class={`panelbottomleft ${presentMode.on ? 'present' : ''}`}>
 			{#if timeLeft >= 0}
 				<span class="timestamp">{formatTimestamp(timeLeft)}</span>
 			{:else}
@@ -73,24 +76,26 @@
 			{/if}
 			<span class="title">{bar.name}</span>
 		</div>
-		<div class="panelbottomright">
-			<button
-				onclick={() => {
-					editFormToggle = true;
-				}}
-				>Edit
-			</button>
-			<form method="POST" action="?/deletebar" bind:this={formBind} use:enhance>
-				<input name="id" type="hidden" value={bar.id} />
-				<ButtonConfirm
-					innerText="Delete&nbsp&nbsp"
-					confirmText="Delete?"
-					onEnd={() => {
-						formBind.requestSubmit();
+		{#if !presentMode.on}
+			<div class="panelbottomright">
+				<button
+					onclick={() => {
+						editFormToggle = true;
 					}}
-				/>
-			</form>
-		</div>
+					>Edit
+				</button>
+				<form method="POST" action="?/deletebar" bind:this={formBind} use:enhance>
+					<input name="id" type="hidden" value={bar.id} />
+					<ButtonConfirm
+						innerText="Delete&nbsp&nbsp"
+						confirmText="Delete?"
+						onEnd={() => {
+							formBind.requestSubmit();
+						}}
+					/>
+				</form>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -102,14 +107,24 @@
 
 	.panelbottom {
 		display: flex;
-		height: 25px;
-		margin-top: 5px;
+		margin-top: 3px;
 	}
 
 	.panelbottomleft {
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: clip;
+	}
+
+	.present {
+		width: 100%;
+	}
+
+	.present > .title {
+		float: right;
+		font-size: 20px;
+		height: 100%;
+		justify-items: center;
 	}
 
 	.panelbottomright {
@@ -120,7 +135,7 @@
 	}
 
 	.timestamp {
-		font-size: 20px;
+		font-size: 22px;
 		color: white;
 		background-color: transparent;
 		padding: 0px 10px;
@@ -129,7 +144,7 @@
 	}
 
 	.title {
-		font-size: 15px;
+		font-size: 17px;
 		color: var(--col-deselect);
 	}
 
