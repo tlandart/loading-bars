@@ -19,6 +19,7 @@
 	// TODO QOL: toggle for overdue bars
 	// TODO FEAT: add themes (just color changes?) use useContext
 	// TODO FEAT: filter bars by name or date(s) or groupnames
+	// TODO QOL: in non present mode, panelbottomleft won't clip anymore?
 </script>
 
 <TopBar />
@@ -73,9 +74,7 @@
 
 	.page {
 		width: 60%;
-		margin-top: 50px;
-		margin-left: auto;
-		margin-right: auto;
+		margin: 150px auto;
 		padding: 25px;
 		border: 2px solid var(--col-deselect);
 		border-radius: var(--radius-amount);

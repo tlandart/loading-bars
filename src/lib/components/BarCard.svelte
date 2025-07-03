@@ -103,7 +103,7 @@
 <style>
 	.panel {
 		margin: 10px 0px;
-		width: 90%;
+		flex: 1;
 	}
 
 	.panelbottom {
@@ -115,17 +115,6 @@
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: clip;
-	}
-
-	.present {
-		width: 100%;
-	}
-
-	.present > .title {
-		float: right;
-		font-size: 20px;
-		height: 100%;
-		justify-items: center;
 	}
 
 	.panelbottomright {
@@ -147,6 +136,17 @@
 	.title {
 		font-size: 17px;
 		color: var(--col-deselect);
+	}
+
+	.present {
+		width: 100%;
+	}
+
+	.present > .title {
+		float: right;
+		font-size: 20px;
+		height: 100%;
+		justify-items: center;
 	}
 
 	button {

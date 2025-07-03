@@ -5,6 +5,7 @@
 <style>
 	.hamburgerouter {
 		margin-right: 10px;
+		width: 22px;
 	}
 
 	.hamburgerinner {
