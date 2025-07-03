@@ -103,7 +103,7 @@
 <style>
 	.panel {
 		margin: 10px 0px;
-		flex: 1;
+		width: 95%;
 	}
 
 	.panelbottom {
@@ -114,7 +114,7 @@
 	.panelbottomleft {
 		overflow: hidden;
 		white-space: nowrap;
-		text-overflow: clip;
+		text-overflow: ellipsis;
 	}
 
 	.panelbottomright {
