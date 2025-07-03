@@ -71,17 +71,17 @@
 		class="panelholder"
 		ondragover={(e) => {
 			// These functions are loosely based on this: https://stackoverflow.com/a/28962290
-			dragOverId = bar.id;
 			e.currentTarget.style.filter = 'opacity(50%)';
+			dragOverId = bar.id;
 		}}
 		ondragleave={(e) => {
 			e.currentTarget.style.filter = '';
 		}}
-		ondragstart={() => {
+		ondragstart={(e) => {
 			dragging = true;
 			selectedId = bar.id;
 		}}
-		ondragend={() => {
+		ondragend={(e) => {
 			dragging = false;
 			if (selectedId && dragOverId && selectedId !== dragOverId) {
 				formBind.requestSubmit();

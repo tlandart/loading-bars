@@ -4,7 +4,6 @@
 	import FormBarCreate from '$lib/components/FormBarCreate.svelte';
 	import FormFileDownload from '$lib/components/FormFileDownload.svelte';
 	import FormFileUpload from '$lib/components/FormFileUpload.svelte';
-	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
 	import GroupLabelHolder from '$lib/components/GroupLabelHolder.svelte';
 	import { setContext } from 'svelte';
 	import TopBar from '$lib/components/misc/TopBar.svelte';

@@ -14,4 +14,8 @@
 		margin-top: 11px;
 		cursor: grab;
 	}
+
+	.hamburgerinner:active {
+		cursor: grabbing;
+	}
 </style>

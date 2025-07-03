@@ -7,7 +7,17 @@
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="topbar {open ? 'open' : ''}" onmouseleave={() => (open = false)}>
+<div
+	class="topbar {open ? 'open' : ''}"
+	onmouseenter={() => (open = true)}
+	onmouseleave={() => (open = false)}
+>
+	{#if open}
+		<label>
+			Present mode
+			<input type="checkbox" bind:checked={presentMode.on} />
+		</label>
+	{/if}
 	<button onclick={() => (open = !open)}>
 		{#if open}
 			&#10005
@@ -15,12 +25,6 @@
 			&#8230
 		{/if}
 	</button>
-	{#if open}
-		<label>
-			Present mode
-			<input type="checkbox" bind:checked={presentMode.on} />
-		</label>
-	{/if}
 </div>
 
 <style>
@@ -31,7 +35,7 @@
 		left: 0;
 		background-color: var(--col-background);
 		z-index: 5000;
-		padding: 5px;
+		padding: 6px;
 		margin: 5px;
 		border-radius: var(--radius-amount);
 		border: 2px solid var(--col-background);
@@ -45,7 +49,7 @@
 	}
 
 	label {
-		font-size: 18px;
+		font-size: 16px;
 		margin: auto;
 	}
 
@@ -54,10 +58,10 @@
 		cursor: pointer;
 		font-size: 20px;
 		border: none;
-		padding: 0;
 		color: white;
 		background-color: rgb(0, 0, 0, 0);
 		width: 27px;
 		height: 27px;
+		padding-bottom: 5px;
 	}
 </style>
