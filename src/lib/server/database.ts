@@ -117,11 +117,31 @@ export function editGroupsBar(id: string, groups?: string[]): Bar[] {
 	return bars;
 }
 
+export function moveBar(id1: string, id2: string): Bar[] {
+	/* Swaps bar id1 and bar id2's position. */
+
+	if (id1 === id2) throw new Error(`ID1 ${id1} cannot equal ID2 ${id2}.`);
+	if (bars.findIndex((bar) => bar.id === id1) === -1)
+		throw new Error(`ID ${id1} does not match an existing bar.`);
+	if (bars.findIndex((bar) => bar.id === id2) === -1)
+		throw new Error(`ID ${id2} does not match an existing bar.`);
+
+	// Delete id1, then put it back at index2
+	const index1 = bars.findIndex((bar) => bar.id === id1);
+	let temp = bars[index1];
+	bars.splice(index1, 1);
+	const index2 = bars.findIndex((bar) => bar.id === id2);
+	if (index1 <= index2) bars.splice(index2 + 1, 0, temp);
+	else bars.splice(index2, 0, temp);
+
+	return bars;
+}
+
 // GROUP MANIPULATION FUNCTIONS
 
-// Checks if strColor is a valid CSS color
-// credit: https://stackoverflow.com/a/8027444
 const isColor = (strColor: string) => {
+	/* Checks if strColor is a valid CSS color
+	   credit: https://stackoverflow.com/a/8027444 */
 	return /^#[0-9A-F]{6}$/i.test(strColor);
 };
 

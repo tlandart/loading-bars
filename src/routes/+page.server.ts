@@ -185,6 +185,23 @@ export const actions = {
 			});
 		}
 	},
+	movebar: async ({ cookies, request }) => {
+		const data = await request.formData();
+		const id1 = data.get('id1') as string;
+		const id2 = data.get('id2') as string;
+
+		try {
+			bars = db.moveBar(id1, id2);
+			console.log(`Successfully moved bar id: ${id1} to bar id: ${id2}`);
+			return { success: true };
+		} catch (error) {
+			console.error((<Error>error).message);
+			return fail(406, {
+				success: false,
+				error: (<Error>error).message
+			});
+		}
+	},
 	creategroup: async ({ cookies, request }) => {
 		const data = await request.formData();
 		let name = data.get('groupname') as string;

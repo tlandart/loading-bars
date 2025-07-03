@@ -3,8 +3,21 @@
 
 	import BarCard from '$lib/components/BarCard.svelte';
 	import { now } from '$lib/shared.svelte';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import DragHandler from './misc/DragHandler.svelte';
+	import { flip } from 'svelte/animate';
+	import { enhance } from '$app/forms';
 	let { bars, groups, filterGroups = [] } = $props();
+
+	const presentMode: { on: boolean } = getContext('presentMode');
+
+	let formBind: HTMLFormElement;
+
+	let dragging = $state(false);
+	// The ID of the bar that is currently being dragged over, or null.
+	let dragOverId: string | null = $state(null);
+	// The ID of the bar that is currently being dragged, or null.
+	let selectedId: string | null = $state(null);
 
 	// how many ms between updates. don't make too small else lag
 	// 1000 = 1fps, 200 = 5fps, 33 = ~30fps, 17 = ~60fps
@@ -36,9 +49,56 @@
 	}
 </script>
 
-{#each bars as bar}
+{#if !presentMode.on}
+	<form
+		method="POST"
+		action="?/movebar"
+		bind:this={formBind}
+		onsubmit={(e) => {
+			console.log(`submitting with id1=${selectedId}, id2=${dragOverId}`);
+		}}
+		use:enhance
+	>
+		<input type="hidden" name="id1" value={selectedId} />
+		<input type="hidden" name="id2" value={dragOverId} />
+	</form>
+{/if}
+{#each bars.filter((bar: any) => checkFilter(bar.groups, filterGroups)) as bar (bar.id)}
 	<!-- {#if now.getTime() < bar.end} -->
-	{#if checkFilter(bar.groups, filterGroups)}
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div
+		class="panelholder"
+		ondragover={(e) => {
+			dragOverId = bar.id;
+			e.currentTarget.style.filter = 'opacity(50%)';
+		}}
+		ondragleave={(e) => {
+			e.currentTarget.style.filter = '';
+		}}
+		ondragstart={() => {
+			dragging = true;
+			selectedId = bar.id;
+		}}
+		ondragend={() => {
+			dragging = false;
+			if (selectedId && dragOverId && selectedId !== dragOverId) {
+				formBind.requestSubmit();
+			}
+			dragOverId = null;
+			selectedId = null;
+		}}
+		animate:flip={{ duration: 100 }}
+	>
+		{#if !presentMode.on}
+			<DragHandler />
+		{/if}
 		<BarCard {bar} {groups} />
-	{/if}
+	</div>
 {/each}
+
+<style>
+	.panelholder {
+		display: flex;
+		width: 100%;
+	}
+</style>

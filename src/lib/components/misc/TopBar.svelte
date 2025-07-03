@@ -6,7 +6,8 @@
 	const presentMode: { on: boolean } = getContext('presentMode');
 </script>
 
-<div class="topbar {open ? 'open' : ''}">
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="topbar {open ? 'open' : ''}" onmouseleave={() => (open = false)}>
 	<button onclick={() => (open = !open)}>
 		{#if open}
 			&#10005
@@ -34,7 +35,7 @@
 		margin: 5px;
 		border-radius: var(--radius-amount);
 		border: 2px solid var(--col-background);
-		transition-duration: 1s;
+		transition-duration: 0.7s;
 	}
 
 	.topbar:hover,

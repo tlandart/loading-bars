@@ -15,6 +15,7 @@
 
 	const presentMode: { on: boolean } = getContext('presentMode');
 
+	// svelte-ignore non_reactive_update
 	let formBind: HTMLFormElement;
 
 	$effect(() => {
@@ -59,7 +60,7 @@
 	{/snippet}
 </PopupMenu>
 
-<div class="panel">
+<div class="panel {presentMode.on ? 'present' : ''}">
 	<Bar
 		start={bar.start}
 		end={bar.end}
@@ -68,7 +69,7 @@
 		}}
 	/>
 	<div class="panelbottom">
-		<div class={`panelbottomleft ${presentMode.on ? 'present' : ''}`}>
+		<div class="panelbottomleft {presentMode.on ? 'present' : ''}">
 			{#if timeLeft >= 0}
 				<span class="timestamp">{formatTimestamp(timeLeft)}</span>
 			{:else}
@@ -102,7 +103,7 @@
 <style>
 	.panel {
 		margin: 10px 0px;
-		width: 100%;
+		width: 90%;
 	}
 
 	.panelbottom {
