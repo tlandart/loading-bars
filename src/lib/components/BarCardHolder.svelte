@@ -11,6 +11,7 @@
 
 	const presentMode: { on: boolean } = getContext('presentMode');
 
+	// svelte-ignore non_reactive_update
 	let formBind: HTMLFormElement;
 
 	let dragging = $state(false);
@@ -69,6 +70,7 @@
 	<div
 		class="panelholder"
 		ondragover={(e) => {
+			// These functions are loosely based on this: https://stackoverflow.com/a/28962290
 			dragOverId = bar.id;
 			e.currentTarget.style.filter = 'opacity(50%)';
 		}}

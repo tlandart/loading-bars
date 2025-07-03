@@ -1,9 +1,12 @@
 <script lang="ts">
 	import GroupLabel from '$lib/components/GroupLabel.svelte';
 	import type { Group } from '$lib/server/database';
+	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
+	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
 
 	let { groups, selectedGroups = $bindable(), editable = false } = $props();
 
+	let createGroupFormToggle = $state(false);
 	let enableEdit = $state(false);
 
 	$effect(() => {
@@ -34,6 +37,19 @@
 		<input type="checkbox" bind:checked={enableEdit} />
 		Edit groups
 	</label>
+	{#if enableEdit}
+		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group">
+			{#snippet children({ dialogClose = () => {} })}
+				<FormGroupCreate {dialogClose} />
+			{/snippet}
+		</PopupMenu>
+		<button
+			onclick={() => {
+				createGroupFormToggle = true;
+			}}
+			>Add group
+		</button>
+	{/if}
 {/if}
 <div class="panel">
 	{#each groups as group}

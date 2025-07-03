@@ -11,7 +11,6 @@
 	let { data, form } = $props();
 
 	let createBarFormToggle = $state(false);
-	let createGroupFormToggle = $state(false);
 	let filterGroups = $state([]);
 
 	let presentMode = $state({ on: false });
@@ -19,7 +18,6 @@
 
 	// TODO QOL: style forms
 	// TODO QOL: toggle for overdue bars
-	// TODO FEAT: drag bars to reorder them (see https://stackoverflow.com/a/28962290)
 	// TODO FEAT: add themes (just color changes?) use useContext
 	// TODO FEAT: filter bars by name or date(s) or groupnames
 </script>
@@ -35,17 +33,6 @@
 				<FormFileDownload {form} />
 			</div>
 		</div>
-		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group" {form}>
-			{#snippet children({ dialogClose = () => {} })}
-				<FormGroupCreate {form} {dialogClose} />
-			{/snippet}
-		</PopupMenu>
-		<button
-			onclick={() => {
-				createGroupFormToggle = true;
-			}}
-			>Add group
-		</button>
 		<GroupLabelHolder groups={data.groups} bind:selectedGroups={filterGroups} editable />
 	{/if}
 	<BarCardHolder bars={data.bars} groups={data.groups} {filterGroups} />

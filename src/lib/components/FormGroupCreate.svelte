@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 
-	let { form, dialogClose = () => {} } = $props();
+	let { dialogClose = () => {} } = $props();
 </script>
 
 <form method="POST" action="?/creategroup" onsubmit={() => dialogClose()} use:enhance>
