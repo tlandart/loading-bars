@@ -19,7 +19,6 @@
 	// TODO QOL: toggle for overdue bars
 	// TODO FEAT: add themes (just color changes?) use useContext
 	// TODO FEAT: filter bars by name or date(s) or groupnames
-	// TODO QOL: in non present mode, panelbottomleft won't clip anymore?
 </script>
 
 <TopBar />
@@ -53,7 +52,8 @@
 
 <style>
 	:global(:root) {
-		--col-background: rgb(54, 68, 40);
+		/* --col-background: rgb(54, 68, 40); */
+		--col-background: black;
 		--col-deselect: rgb(223, 223, 223);
 		/* --col-select: rgb(180, 27, 180);
 		--col-select-2: rgb(224, 67, 224); */
@@ -66,6 +66,11 @@
 
 	:global(*) {
 		font-family: 'Roboto', 'Arial', sans-serif;
+	}
+
+	:global(*::selection) {
+		color: white;
+		background-color: black;
 	}
 
 	:global(.error) {

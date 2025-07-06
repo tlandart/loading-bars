@@ -64,13 +64,16 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background: rgb(0, 0, 0, 0.33);
+		background: rgb(0, 0, 0, 0.6);
 		z-index: 1000;
 		border: none;
 	}
 
 	.foreground {
+		box-sizing: border-box;
 		position: fixed;
+		width: 1000px;
+		height: 500px;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -79,6 +82,18 @@
 		border-radius: var(--radius-amount);
 		background-color: var(--col-background);
 		z-index: 2000;
+	}
+
+	@media (max-width: 1000px) {
+		.foreground {
+			width: auto;
+		}
+	}
+
+	@media (max-height: 500px) {
+		.foreground {
+			height: auto;
+		}
 	}
 
 	.close {

@@ -51,15 +51,7 @@
 </script>
 
 {#if !presentMode.on}
-	<form
-		method="POST"
-		action="?/movebar"
-		bind:this={formBind}
-		onsubmit={(e) => {
-			console.log(`submitting with id1=${selectedId}, id2=${dragOverId}`);
-		}}
-		use:enhance
-	>
+	<form method="POST" action="?/movebar" bind:this={formBind} use:enhance>
 		<input type="hidden" name="id1" value={selectedId} />
 		<input type="hidden" name="id2" value={dragOverId} />
 	</form>
