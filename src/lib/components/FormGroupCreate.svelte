@@ -17,5 +17,5 @@
 		value="#ff0000"
 		required
 	/>
-	<input type="submit" value="Create Group" />
+	<input type="submit" value="Confirm" />
 </form>

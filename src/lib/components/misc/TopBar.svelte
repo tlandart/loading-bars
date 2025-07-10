@@ -38,8 +38,8 @@
 		padding: 6px;
 		margin: 5px;
 		border-radius: var(--radius-amount);
-		border: 2px solid var(--col-background);
-		transition-duration: 0.7s;
+		border: 2px solid transparent;
+		transition-duration: var(--hover-time);
 	}
 
 	.topbar:hover,
@@ -59,7 +59,7 @@
 		font-size: 20px;
 		border: none;
 		color: white;
-		background-color: rgb(0, 0, 0, 0);
+		background-color: transparent;
 		width: 27px;
 		height: 27px;
 		padding-bottom: 5px;

@@ -38,7 +38,7 @@
 		Edit groups
 	</label>
 	{#if enableEdit}
-		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add Group">
+		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add group">
 			{#snippet children({ dialogClose = () => {} })}
 				<FormGroupCreate {dialogClose} />
 			{/snippet}

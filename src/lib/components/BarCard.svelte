@@ -52,7 +52,7 @@
 	// };
 </script>
 
-<PopupMenu bind:isOpen={editFormToggle} header="Edit Bar" {form}>
+<PopupMenu bind:isOpen={editFormToggle} header="Edit bar" {form}>
 	<!-- This took me a while to figure out. Using snippets, we pass dialogClose(), as defined in PopupMenu, into its child, in this case FormBarEdit. Then we can call it from anywhere in the child, in this case once the form in it submits. -->
 	{#snippet children({ dialogClose = () => {} })}
 		<FormBarEdit {bar} {form} {dialogClose} />
@@ -151,7 +151,7 @@
 
 	button {
 		color: var(--col-deselect);
-		background-color: var(--col-background);
+		background-color: transparent;
 		font-size: 15px;
 		border: none;
 		border-radius: var(--radius-amount);

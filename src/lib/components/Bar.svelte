@@ -45,7 +45,7 @@
 
 	.bar:hover {
 		animation-name: glow;
-		animation-duration: 0.75s;
+		animation-duration: var(--hover-time);
 		animation-iteration-count: infinite;
 		animation-direction: alternate;
 		animation-timing-function: ease-out;
@@ -74,8 +74,8 @@
 	}
 
 	.bar:hover > .shadow {
-		top: 4px;
-		left: 4px;
+		top: 3.5px;
+		left: 3.5px;
 		filter: brightness(0.5);
 	}
 </style>

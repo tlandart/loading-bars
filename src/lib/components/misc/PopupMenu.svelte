@@ -72,8 +72,7 @@
 	.foreground {
 		box-sizing: border-box;
 		position: fixed;
-		width: 1000px;
-		height: 500px;
+		max-width: 1000px;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -84,21 +83,15 @@
 		z-index: 2000;
 	}
 
-	@media (max-width: 1000px) {
+	@media (max-width: 599px) {
 		.foreground {
-			width: auto;
-		}
-	}
-
-	@media (max-height: 500px) {
-		.foreground {
-			height: auto;
+			width: 80%;
 		}
 	}
 
 	.close {
 		color: var(--col-deselect);
-		background-color: var(--col-background);
+		background-color: transparent;
 		font-size: 20px;
 		border: none;
 		border-radius: var(--radius-amount);

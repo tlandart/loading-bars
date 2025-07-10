@@ -30,13 +30,13 @@
 
 <style>
 	.confirm {
-		color: black;
+		color: var(--col-background);
 		background-color: var(--col-deselect);
 	}
 
 	button {
 		color: var(--col-deselect);
-		background-color: var(--col-background);
+		background-color: transparent;
 		font-size: 15px;
 		border: none;
 		border-radius: var(--radius-amount);

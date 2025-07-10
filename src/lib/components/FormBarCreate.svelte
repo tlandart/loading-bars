@@ -6,7 +6,6 @@
 	let { form, dialogClose = () => {}, createFormToggle = false } = $props();
 	let startNowToggle = $state(true);
 	let absoluteFormToggle = $state(false);
-	let focusThis: HTMLInputElement | null = $state(null);
 
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
 		// if (event.currentTarget !== document.activeElement) {
@@ -20,159 +19,181 @@
 </script>
 
 <form method="POST" action="?/createbar" onsubmit={() => dialogClose()} use:enhance>
-	<label for="name">Name</label>
-	<!-- Maybe not the best idea but makes it faster to create -->
-	<!-- svelte-ignore a11y_autofocus -->
-	<input
-		id="name"
-		name="name"
-		type="text"
-		autocomplete="off"
-		onfocus={(e) => {
-			(e.target as HTMLInputElement).select();
-		}}
-		value="New Bar"
-		required
-		autofocus
-	/>
 	<input name="absoluteform" type="hidden" value={absoluteFormToggle} />
-	<input
-		id="startnow"
-		name="startnow"
-		type="checkbox"
-		bind:checked={startNowToggle}
-		defaultChecked={startNowToggle}
-	/>
-	<label for="startnow">Start on submit</label>
+	<div class="formtopinputpanel">
+		<label for="name">
+			Name
+			<!-- Autofocus is maybe not the best idea but it makes it faster to create -->
+			<!-- svelte-ignore a11y_autofocus -->
+			<input
+				id="name"
+				name="name"
+				type="text"
+				autocomplete="off"
+				onfocus={(e) => {
+					(e.target as HTMLInputElement).select();
+				}}
+				value="New Bar"
+				required
+				autofocus
+			/>
+		</label>
+		<label for="startnow">
+			Start on submit
+			<input
+				id="startnow"
+				name="startnow"
+				type="checkbox"
+				bind:checked={startNowToggle}
+				defaultChecked={startNowToggle}
+			/>
+		</label>
+	</div>
 	<button
 		class="formtogglebutton"
+		type="button"
 		onclick={(e) => {
 			e.preventDefault();
 			absoluteFormToggle = !absoluteFormToggle;
 		}}
 	>
 		{#if absoluteFormToggle}
-			<div class="formtogglebuttonbg"></div>
+			<div class="formtogglebuttonbg">Relative</div>
 			<div class="formtogglebuttonabsolute">Absolute</div>
 		{:else}
 			<div class="formtogglebuttonrelative">Relative</div>
-			<div class="formtogglebuttonbg"></div>
+			<div class="formtogglebuttonbg">Absolute</div>
 		{/if}
 	</button>
 	{#if absoluteFormToggle}
-		{#if !startNowToggle}
-			<label for="startdatetime">Start</label>
-			<input id="startdatetime" name="startdatetime" type="datetime-local" step="1" required />
-		{/if}
-		<label for="enddatetime">End</label>
-		<input id="enddatetime" name="enddatetime" type="datetime-local" step="1" required />
+		<div class="forminputpanelholder">
+			{#if !startNowToggle}
+				<label for="startdatetime">Start</label>
+				<input id="startdatetime" name="startdatetime" type="datetime-local" step="1" required />
+			{/if}
+			<label for="enddatetime">End</label>
+			<input
+				id="enddatetime"
+				name="enddatetime"
+				type="datetime-local"
+				step="1"
+				required
+				style:margin-bottom="11px"
+			/>
+		</div>
 	{:else}
-		{#if !startNowToggle}
-			<header>Start in</header>
-			<div class="formscrollinputpanel">
-				<div class="formscrollinput">
-					<input
-						id="relativestarthou"
-						name="relativestarthou"
-						type="number"
-						min="0"
-						max="99"
-						defaultValue="0"
-						onclick={(e) => {
-							(e.target as HTMLInputElement).select();
-						}}
-						onwheel={handleWheel}
-						required
-					/>
-					<label for="relativestarthou">hours</label>
+		<div class="forminputpanelwrapper">
+			{#if !startNowToggle}
+				<div class="forminputpanelholder">
+					<header>Start in</header>
+					<div class="forminputpanel">
+						<div class="forminput">
+							<input
+								id="relativestarthou"
+								name="relativestarthou"
+								type="number"
+								min="0"
+								max="99"
+								defaultValue="0"
+								onclick={(e) => {
+									(e.target as HTMLInputElement).select();
+								}}
+								onwheel={handleWheel}
+								required
+							/>
+							<label for="relativestarthou">hours</label>
+						</div>
+						<div class="forminput">
+							<input
+								id="relativestartmin"
+								name="relativestartmin"
+								type="number"
+								min="0"
+								max="59"
+								defaultValue="0"
+								onclick={(e) => {
+									(e.target as HTMLInputElement).select();
+								}}
+								onwheel={handleWheel}
+								required
+							/>
+							<label for="relativestartmin">minutes</label>
+						</div>
+						<div class="forminput">
+							<input
+								id="relativestartsec"
+								name="relativestartsec"
+								type="number"
+								min="0"
+								max="59"
+								defaultValue="0"
+								onclick={(e) => {
+									(e.target as HTMLInputElement).select();
+								}}
+								onwheel={handleWheel}
+								required
+							/>
+							<label for="relativestartsec">seconds</label>
+						</div>
+					</div>
 				</div>
-				<div class="formscrollinput">
-					<input
-						id="relativestartmin"
-						name="relativestartmin"
-						type="number"
-						min="0"
-						max="59"
-						defaultValue="0"
-						onclick={(e) => {
-							(e.target as HTMLInputElement).select();
-						}}
-						onwheel={handleWheel}
-						required
-					/>
-					<label for="relativestartmin">minutes</label>
+			{/if}
+			<div class="forminputpanelholder">
+				<header>End in</header>
+				<div class="forminputpanel">
+					<div class="forminput">
+						<input
+							id="relativeendhou"
+							name="relativeendhou"
+							type="number"
+							min="0"
+							max="99"
+							defaultValue="0"
+							onclick={(e) => {
+								(e.target as HTMLInputElement).select();
+							}}
+							onwheel={handleWheel}
+							required
+						/>
+						<label for="relativeendhou">hours</label>
+					</div>
+					<div class="forminput">
+						<input
+							id="relativeendmin"
+							name="relativeendmin"
+							type="number"
+							min="0"
+							max="59"
+							defaultValue="10"
+							onclick={(e) => {
+								(e.target as HTMLInputElement).select();
+							}}
+							onwheel={handleWheel}
+							required
+						/>
+						<label for="relativeendmin">minutes</label>
+					</div>
+					<div class="forminput">
+						<input
+							id="relativeendsec"
+							name="relativeendsec"
+							type="number"
+							min="0"
+							max="59"
+							defaultValue="0"
+							onclick={(e) => {
+								(e.target as HTMLInputElement).select();
+							}}
+							onwheel={handleWheel}
+							required
+						/>
+						<label for="relativeendsec">seconds</label>
+					</div>
 				</div>
-				<div class="formscrollinput">
-					<input
-						id="relativestartsec"
-						name="relativestartsec"
-						type="number"
-						min="0"
-						max="59"
-						defaultValue="0"
-						onclick={(e) => {
-							(e.target as HTMLInputElement).select();
-						}}
-						onwheel={handleWheel}
-						required
-					/>
-					<label for="relativestartsec">seconds</label>
-				</div>
-			</div>
-		{/if}
-		<header>End in</header>
-		<div class="formscrollinputpanel">
-			<div class="formscrollinput">
-				<input
-					id="relativeendhou"
-					name="relativeendhou"
-					type="number"
-					min="0"
-					max="99"
-					defaultValue="0"
-					onclick={(e) => {
-						(e.target as HTMLInputElement).select();
-					}}
-					onwheel={handleWheel}
-					required
-				/>
-				<label for="relativeendhou">hours</label>
-			</div>
-			<div class="formscrollinput">
-				<input
-					id="relativeendmin"
-					name="relativeendmin"
-					type="number"
-					min="0"
-					max="59"
-					defaultValue="10"
-					onclick={(e) => {
-						(e.target as HTMLInputElement).select();
-					}}
-					onwheel={handleWheel}
-					required
-				/>
-				<label for="relativeendmin">minutes</label>
-			</div>
-			<div class="formscrollinput">
-				<input
-					id="relativeendsec"
-					name="relativeendsec"
-					type="number"
-					min="0"
-					max="59"
-					defaultValue="0"
-					onclick={(e) => {
-						(e.target as HTMLInputElement).select();
-					}}
-					onwheel={handleWheel}
-					required
-				/>
-				<label for="relativeendsec">seconds</label>
 			</div>
 		</div>
 	{/if}
-	<input type="submit" />
+	<input type="submit" value="Confirm" />
 </form>
 
 {#if form?.error}
@@ -182,7 +203,12 @@
 <style>
 	@import '$lib/shared';
 
-	header {
-		color: white;
+	.formtopinputpanel {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.formtopinputpanel > label {
+		margin: 5px auto;
 	}
 </style>

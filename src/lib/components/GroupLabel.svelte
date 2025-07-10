@@ -107,7 +107,7 @@
 
 	input[type='submit'] {
 		color: var(--col-deselect);
-		background-color: rgb(0, 0, 0, 0);
+		background-color: transparent;
 		font-size: 15px;
 		border: none;
 		border-radius: var(--radius-amount);
