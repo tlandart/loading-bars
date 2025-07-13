@@ -12,8 +12,11 @@
 	let createBarFormToggle = $state(false);
 	let filterGroups = $state([]);
 
-	let presentMode = $state({ on: false });
-	setContext('presentMode', presentMode);
+	let editMode = $state({ on: false });
+	setContext('editMode', editMode);
+
+	let rulerMode = $state({ on: false });
+	setContext('rulerMode', rulerMode);
 
 	// let themeColor = $state('#ffffff');
 
@@ -24,7 +27,7 @@
 
 <TopBar />
 <div class="page">
-	{#if !presentMode.on}
+	{#if editMode.on}
 		<!-- <input
 			type="color"
 			defaultValue={themeColor}
@@ -41,7 +44,7 @@
 		<GroupLabelHolder groups={data.groups} bind:selectedGroups={filterGroups} editable />
 	{/if}
 	<BarCardHolder bars={data.bars} groups={data.groups} {filterGroups} />
-	{#if !presentMode.on}
+	{#if editMode.on}
 		<PopupMenu bind:isOpen={createBarFormToggle} header="Add bar" {form}>
 			{#snippet children({ dialogClose = () => {} })}
 				<FormBarCreate {form} {dialogClose} />
@@ -67,7 +70,7 @@
 		--col-select-2: rgb(224, 67, 224); */
 		/* --col-select: rgb(167, 133, 25);
 		--col-select-2: rgb(206, 172, 60); */
-		--radius-amount: 3px;
+		--radius-amount: 2.5px;
 		--hover-time: 0.5s;
 		color: white;
 		background-color: var(--col-background);
