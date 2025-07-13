@@ -9,7 +9,7 @@
 	import { enhance } from '$app/forms';
 	let { bars, groups, filterGroups = [] } = $props();
 
-	const presentMode: { on: boolean } = getContext('presentMode');
+	const editMode: { on: boolean } = getContext('editMode');
 
 	// svelte-ignore non_reactive_update
 	let formBind: HTMLFormElement;
@@ -50,7 +50,7 @@
 	}
 </script>
 
-{#if !presentMode.on}
+{#if editMode.on}
 	<form method="POST" action="?/movebar" bind:this={formBind} use:enhance>
 		<input type="hidden" name="id1" value={selectedId} />
 		<input type="hidden" name="id2" value={dragOverId} />
@@ -83,7 +83,7 @@
 		}}
 		animate:flip={{ duration: 100 }}
 	>
-		{#if !presentMode.on}
+		{#if editMode.on}
 			<DragHandler />
 		{/if}
 		<BarCard {bar} {groups} />

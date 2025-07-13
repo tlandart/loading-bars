@@ -13,7 +13,7 @@
 	// let formatType = $state(0);
 	let editFormToggle = $state(false);
 
-	const presentMode: { on: boolean } = getContext('presentMode');
+	const editMode: { on: boolean } = getContext('editMode');
 
 	// svelte-ignore non_reactive_update
 	let formBind: HTMLFormElement;
@@ -60,16 +60,16 @@
 	{/snippet}
 </PopupMenu>
 
-<div class="panel {presentMode.on ? 'present' : ''}">
+<div class="panel {editMode.on ? '' : 'present'}">
 	<Bar
 		start={bar.start}
 		end={bar.end}
 		onclick={() => {
-			if (!presentMode.on) editFormToggle = true;
+			if (editMode.on) editFormToggle = true;
 		}}
 	/>
 	<div class="panelbottom">
-		<div class="panelbottomleft {presentMode.on ? 'present' : ''}">
+		<div class="panelbottomleft {editMode.on ? '' : 'present'}">
 			{#if timeLeft >= 0}
 				<span class="timestamp">{formatTimestamp(timeLeft)}</span>
 			{:else}
@@ -77,7 +77,7 @@
 			{/if}
 			<span class="title">{bar.name}</span>
 		</div>
-		{#if !presentMode.on}
+		{#if editMode.on}
 			<div class="panelbottomright">
 				<button
 					onclick={() => {

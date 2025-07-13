@@ -3,21 +3,21 @@
 
 	let open = $state(false);
 
-	const presentMode: { on: boolean } = getContext('presentMode');
+	const editMode: { on: boolean } = getContext('editMode');
+	const rulerMode: { on: boolean } = getContext('rulerMode');
+	let hoverToOpen = $state(true);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="topbar {open ? 'open' : ''}"
-	onmouseenter={() => (open = true)}
-	onmouseleave={() => (open = false)}
+	onmouseenter={() => {
+		if (hoverToOpen) open = true;
+	}}
+	onmouseleave={() => {
+		if (hoverToOpen) open = false;
+	}}
 >
-	{#if open}
-		<label>
-			Present mode
-			<input type="checkbox" bind:checked={presentMode.on} />
-		</label>
-	{/if}
 	<button onclick={() => (open = !open)}>
 		{#if open}
 			&#10005
@@ -25,12 +25,27 @@
 			&#8230
 		{/if}
 	</button>
+	{#if open}
+		<label>
+			<span>Edit mode</span>
+			<input type="checkbox" bind:checked={editMode.on} />
+		</label>
+		<label>
+			<span>Show rulers</span>
+			<input type="checkbox" bind:checked={rulerMode.on} />
+		</label>
+		<label>
+			<span>Hover to open this menu</span>
+			<input type="checkbox" bind:checked={hoverToOpen} />
+		</label>
+	{/if}
 </div>
 
 <style>
 	.topbar {
 		position: fixed;
 		display: flex;
+		flex-direction: column;
 		top: 0;
 		left: 0;
 		background-color: var(--col-background);
@@ -50,7 +65,18 @@
 
 	label {
 		font-size: 16px;
-		margin: auto;
+		margin-top: 6px;
+		margin-bottom: 6px;
+		margin-left: 6px;
+		display: flex;
+	}
+
+	span {
+		margin-right: 6px;
+	}
+
+	input[type='checkbox'] {
+		margin-left: auto;
 	}
 
 	button {
