@@ -82,7 +82,7 @@
 
 	:global(*::selection) {
 		color: white;
-		background-color: var(--col-background);
+		background-color: #575757;
 	}
 
 	:global(.error) {

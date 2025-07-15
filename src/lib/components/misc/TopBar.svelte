@@ -20,9 +20,10 @@
 >
 	<button onclick={() => (open = !open)}>
 		{#if open}
-			&#10005
+			&#10005;
 		{:else}
-			&#8230
+			&#8230;
+			<!-- &#9881; -->
 		{/if}
 	</button>
 	{#if open}
@@ -55,6 +56,7 @@
 		border-radius: var(--radius-amount);
 		border: 2px solid transparent;
 		transition-duration: var(--hover-time);
+		user-select: none;
 	}
 
 	.topbar:hover,

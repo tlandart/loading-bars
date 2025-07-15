@@ -157,5 +157,6 @@
 		border-radius: var(--radius-amount);
 		padding: 5px 10px;
 		cursor: pointer;
+		user-select: none;
 	}
 </style>
