@@ -1,11 +1,20 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import ButtonConfirm from '$lib/components/misc/ButtonConfirm.svelte';
 
-	let { group, selected = false, enableEdit = false, onClick = (event: Event) => {} } = $props();
+	let {
+		group,
+		selected = false,
+		enableEdit = false,
+		onClick = (event: Event) => {},
+		submitOnClick = false // whether the clickable grouplabel is a submit button (for if it is being used in a form, e.g. the edit bar form)
+	} = $props();
+
+	// svelte-ignore non_reactive_update
+	let formBind: HTMLFormElement;
 </script>
 
 <button
+	type={submitOnClick ? 'submit' : 'button'}
 	onclick={(event) => {
 		if (!enableEdit) onClick(event);
 	}}
@@ -20,7 +29,7 @@
 		<div class="colorbox" style={`background-color: ${group.color};`}></div>
 		<div class="buttonlabel">{group.name}</div>
 	{:else}
-		<form method="POST" action="?/editgroup" use:enhance>
+		<form method="POST" action="?/editgroup" bind:this={formBind} use:enhance>
 			<input name="id" type="hidden" value={group.id} />
 			<input
 				id="groupcolor"
@@ -28,6 +37,9 @@
 				type="color"
 				defaultValue={group.color}
 				value={group.color}
+				onchange={() => {
+					formBind.requestSubmit();
+				}}
 				required
 			/>
 			<input
@@ -38,9 +50,12 @@
 				defaultValue={group.name}
 				value={group.name}
 				size={group.name.length}
+				onchange={() => {
+					formBind.requestSubmit();
+				}}
 				required
 			/>
-			<input type="submit" value="Edit" />
+			<noscript><input type="submit" value="Edit" /></noscript>
 		</form>
 		<form method="POST" action="?/deletegroup" use:enhance>
 			<input name="id" type="hidden" value={group.id} />

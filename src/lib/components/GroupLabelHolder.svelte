@@ -4,7 +4,7 @@
 	import PopupMenu from '$lib/components/misc/PopupMenu.svelte';
 	import FormGroupCreate from '$lib/components/FormGroupCreate.svelte';
 
-	let { groups, selectedGroups = $bindable(), editable = false } = $props();
+	let { groups, selectedGroups = $bindable(), editable = false, submitOnClick = false } = $props();
 
 	let createGroupFormToggle = $state(false);
 	let enableEdit = $state(false);
@@ -58,6 +58,7 @@
 			selected={selectedGroups.includes(group.id)}
 			enableEdit={editable && enableEdit}
 			onClick={handleClick}
+			{submitOnClick}
 		/>
 	{/each}
 </div>

@@ -20,7 +20,7 @@
 			onchange={() => formBind.requestSubmit()}
 		/>
 	{/each}
-	<GroupLabelHolder {groups} bind:selectedGroups />
+	<GroupLabelHolder {groups} bind:selectedGroups submitOnClick={true} />
 	<input type="hidden" name="editid" value={bar.id} />
 </form>
 
@@ -29,7 +29,7 @@
 		display: flex;
 	}
 
-	input[type='checkbox'] {
+	input[name='groups'] {
 		display: none;
 	}
 </style>

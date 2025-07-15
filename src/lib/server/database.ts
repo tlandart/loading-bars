@@ -74,9 +74,15 @@ export function getFile(obj?: any): { bars: Bar[]; groups: Group[] } {
 
 // BAR MANIPULATION FUNCTIONS
 
-export function createBar(start: number, end: number, name: string): Bar[] {
+export function createBar(start: number, end: number, name: string, bargroups: string[]): Bar[] {
 	if (start >= end) throw new Error('Bar cannot start after it ends.');
-	bars.push({ id: crypto.randomUUID(), start, end, name, groups: [] });
+	console.log(bargroups);
+	console.log(groups.map((val) => val.id));
+	for (let group of bargroups) {
+		if (!groups.map((val) => val.id).includes(group))
+			throw new Error('Request contains invalid group ID(s).');
+	}
+	bars.push({ id: crypto.randomUUID(), start, end, name, groups: bargroups });
 	return bars;
 }
 

@@ -47,7 +47,7 @@
 	{#if editMode.on}
 		<PopupMenu bind:isOpen={createBarFormToggle} header="Add bar" {form}>
 			{#snippet children({ dialogClose = () => {} })}
-				<FormBarCreate {form} {dialogClose} />
+				<FormBarCreate {form} {dialogClose} groups={data.groups} />
 			{/snippet}
 		</PopupMenu>
 		<button

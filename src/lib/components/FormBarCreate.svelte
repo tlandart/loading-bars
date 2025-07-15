@@ -1,24 +1,26 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { abs } from 'mathjs';
-	import { onMount } from 'svelte';
+	import GroupLabelHolder from '$lib/components/GroupLabelHolder.svelte';
 
-	let { form, dialogClose = () => {}, createFormToggle = false } = $props();
+	let { form, dialogClose = () => {}, groups } = $props();
 	let startNowToggle = $state(true);
 	let absoluteFormToggle = $state(false);
 
+	let selectedGroups: string[] = $state([]);
+
 	function handleWheel(event: WheelEvent & { currentTarget: EventTarget & HTMLInputElement }) {
-		// if (event.currentTarget !== document.activeElement) {
-		// 	let val = Number(event.currentTarget.value) - Math.sign(event.deltaY);
-		// 	val = Math.max(val, Number(event.currentTarget.min));
-		// 	val = Math.min(val, Number(event.currentTarget.max));
-		// 	event.currentTarget.value = val.toString();
-		// }
 		if (event.currentTarget !== document.activeElement) event.currentTarget.focus();
 	}
 </script>
 
-<form method="POST" action="?/createbar" onsubmit={() => dialogClose()} use:enhance>
+<form
+	method="POST"
+	action="?/createbar"
+	onsubmit={() => {
+		dialogClose();
+	}}
+	use:enhance
+>
 	<input name="absoluteform" type="hidden" value={absoluteFormToggle} />
 	<div class="formtopinputpanel">
 		<label for="name">
@@ -193,6 +195,16 @@
 			</div>
 		</div>
 	{/if}
+	{#each groups as group}
+		<input
+			name="groups"
+			type="checkbox"
+			value={group.id}
+			checked={selectedGroups.includes(group.id)}
+			defaultChecked={selectedGroups.includes(group.id)}
+		/>
+	{/each}
+	<GroupLabelHolder {groups} bind:selectedGroups />
 	<input type="submit" value="Confirm" />
 </form>
 
@@ -210,5 +222,9 @@
 
 	.formtopinputpanel > label {
 		margin: 5px auto;
+	}
+
+	input[name='groups'] {
+		display: none;
 	}
 </style>

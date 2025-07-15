@@ -85,8 +85,10 @@ export const actions = {
 		}
 		if (start === -1) start = now.getTime();
 
+		let groups: string[] = data.getAll('groups') as string[];
+
 		try {
-			bars = db.createBar(start, end, name);
+			bars = db.createBar(start, end, name, groups);
 			console.log(`Successfully created bar ${name}`);
 			return { success: true };
 		} catch (error) {

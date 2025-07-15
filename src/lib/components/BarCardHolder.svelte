@@ -81,7 +81,7 @@
 			dragOverId = null;
 			selectedId = null;
 		}}
-		animate:flip={{ duration: 100 }}
+		animate:flip={{ duration: 50 }}
 	>
 		{#if editMode.on}
 			<DragHandler />
