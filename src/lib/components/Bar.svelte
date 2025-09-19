@@ -10,6 +10,8 @@
 		100 - Math.min(Math.max((100 * (now.getTime() - start)) / (end - start), 0), 100)
 	);
 
+	// What percentage of the bar does 1 year take up?
+	let yeaPercentage = $derived(Math.max((100 * 31536000000) / (end - start), 0));
 	// What percentage of the bar does 1 day take up?
 	let dayPercentage = $derived(Math.max((100 * 86400000) / (end - start), 0));
 	// What percentage of the bar does 1 hou take up?
@@ -23,7 +25,8 @@
 		{ name: 'second', val: secPercentage },
 		{ name: 'minute', val: minPercentage },
 		{ name: 'hour', val: houPercentage },
-		{ name: 'day', val: dayPercentage }
+		{ name: 'day', val: dayPercentage },
+		{ name: 'year', val: yeaPercentage }
 	]);
 </script>
 
@@ -120,7 +123,6 @@
 		background-color: var(--col-deselect);
 		height: 30%;
 		margin: auto 0px;
-		border-radius: var(--radius-amount);
 	}
 
 	.rulerbarlabel {

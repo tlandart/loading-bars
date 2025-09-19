@@ -37,19 +37,17 @@
 		<input type="checkbox" bind:checked={enableEdit} />
 		Edit groups
 	</label>
-	{#if enableEdit}
-		<PopupMenu bind:isOpen={createGroupFormToggle} header="Add group">
-			{#snippet children({ dialogClose = () => {} })}
-				<FormGroupCreate {dialogClose} />
-			{/snippet}
-		</PopupMenu>
-		<button
-			onclick={() => {
-				createGroupFormToggle = true;
-			}}
-			>Add group
-		</button>
-	{/if}
+	<PopupMenu bind:isOpen={createGroupFormToggle} header="Add group">
+		{#snippet children({ dialogClose = () => {} })}
+			<FormGroupCreate {dialogClose} />
+		{/snippet}
+	</PopupMenu>
+	<button
+		onclick={() => {
+			createGroupFormToggle = true;
+		}}
+		>Add group
+	</button>
 {/if}
 <div class="panel">
 	{#each groups as group}
