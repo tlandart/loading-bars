@@ -15,6 +15,9 @@
 	let editMode = $state({ on: false });
 	setContext('editMode', editMode);
 
+	let rulerMode = $state({ on: false });
+	setContext('rulerMode', rulerMode);
+
 	// let themeColor = $state('#ffffff');
 
 	// TODO QOL: toggle for overdue bars
