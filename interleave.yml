@@ -1,0 +1,24 @@
+# Drafted by Interleave (deterministic). Commit it so PR runs use the same recipe.
+# Why each value was chosen: interleave.provenance.json. Schema: https://interleave.dev/schema/interleave.json
+version: 1
+runtimes:
+  node: "25.7"
+services: {}
+apps:
+  web:
+    cwd: .
+    install: npm ci
+    build: null
+    start: npm run dev -- --host 0.0.0.0
+    port: 5173
+    role: ui
+    health:
+      path: /
+      mode: http-any
+      timeout: 180s
+setup: []
+env:
+  NODE_ENV: development
+integrations: {}
+auth:
+  strategy: none
