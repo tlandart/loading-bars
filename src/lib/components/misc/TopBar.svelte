@@ -4,7 +4,6 @@
 	let open = $state(false);
 
 	const editMode: { on: boolean } = getContext('editMode');
-	const rulerMode: { on: boolean } = getContext('rulerMode');
 	let hoverToOpen = $state(true);
 </script>
 
@@ -30,10 +29,6 @@
 		<label>
 			<span>Edit mode</span>
 			<input type="checkbox" bind:checked={editMode.on} />
-		</label>
-		<label>
-			<span>Show rulers</span>
-			<input type="checkbox" bind:checked={rulerMode.on} />
 		</label>
 		<label>
 			<span>Hover to open this menu</span>
